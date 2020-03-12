@@ -11,7 +11,8 @@ import (
 // Text places text
 func Text(x, y int, s string, size int, color color.RGBA) *canvas.Text {
 	t := &canvas.Text{Text: s, Color: color, TextSize: size}
-	p := fyne.Position{X: x, Y: y}
+	adj := size / 5
+	p := fyne.Position{X: x, Y: y - (size + adj)}
 	t.Move(p)
 	return t
 }
