@@ -29,7 +29,7 @@ func main() {
 	hw3 := height - w3
 	b2 := border * 2
 
-	w, content := fc.Start("Mondrian", width, height)
+	w, _ := fc.Start("Mondrian", width, height)
 	r1 := fc.CornerRect(0, 0, w3, w3, white)       // upper left white square
 	r2 := fc.CornerRect(0, w3, w3, w3, white)      // middle left white square
 	r3 := fc.CornerRect(0, w23, w3, w3, blue)      // lower left blue square
@@ -48,7 +48,7 @@ func main() {
 	l3 := fc.Line(0, w23, width, w23, border, black)    // two-thirds border
 	l4 := fc.Line(ww6, hw3, ww6, height, border, black) // left border for small squares
 	l5 := fc.Line(ww6, hw6, width, hw6, border, black)  // top/bottom of small squares
-	content = fyne.NewContainer(r1, r2, r3, r4, r5, r6, r7, l1, l2, l3, l4, l5, ll, lr, lt, lb)
+	content := fyne.NewContainer(r1, r2, r3, r4, r5, r6, r7, l1, l2, l3, l4, l5, ll, lr, lt, lb)
 
 	fc.EndRun(w, content, width, height)
 }
