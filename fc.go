@@ -5,8 +5,10 @@ import (
 	"image/color"
 
 	"fyne.io/fyne"
+	"fyne.io/fyne/app"
 	"fyne.io/fyne/canvas"
 )
+
 
 // Text places text
 func Text(x, y int, s string, size int, color color.RGBA) *canvas.Text {
@@ -78,4 +80,18 @@ func CornerImage(x, y, w, h int, name string) *canvas.Image {
 	i.Move(fyne.Position{X: x, Y: y})
 	i.Resize(fyne.Size{Width: w, Height: h})
 	return i
+}
+
+// Start initiates the canvas
+func Start(name string, w, h int) (fyne.Window, *fyne.Container) {
+	return app.New().NewWindow(name), fyne.NewContainer(Rect(w/2,h/2,w,h,color.RGBA{0,0,0,255}))
+}
+
+// EndRun shows the content and runs the app
+func EndRun(window fyne.Window, content *fyne.Container, w, h int) {
+	window.Resize(fyne.NewSize(w,h))
+	window.SetFixedSize(true)
+	window.SetPadded(false)
+	window.SetContent(content)
+	window.ShowAndRun()
 }

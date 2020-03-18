@@ -2,6 +2,14 @@
 
 ## methods
 
+## Start -- begin the application
+
+	func Start(name string, w, h int) (fyne.Window, *fyne.Container) {
+
+### EndRun -- run the app
+
+	func End(window fyne.Window, content *fyne.Container, w, h int) {
+
 ### Text -- return text at (x,y) with the specified size and color
 
 	func Text(x, y int, s string, size int, color color.RGBA) *canvas.Text
