@@ -26,7 +26,7 @@ func main() {
 	flag.IntVar(&nshapes, "n", 500, "number of shapes")
 	flag.IntVar(&width, "w", 500, "canvas width")
 	flag.IntVar(&height, "h", 500, "canvas height")
-	flag.IntVar(&maxsize, "size", width/10, "max size")
+	flag.IntVar(&maxsize, "size", width/20, "max size")
 	flag.BoolVar(&timing, "t", false, "timing")
 
 	flag.Parse()
@@ -36,7 +36,7 @@ func main() {
 		bt = time.Now()
 	}
 
-	w, content := fc.Start("Confetti", width, height)
+	w, canvas := fc.Start("Confetti", width, height)
 
 	for i := 0; i < nshapes; i++ {
 		x := rn(width)
@@ -45,16 +45,16 @@ func main() {
 		if i%2 == 0 {
 			w := rn(maxsize)
 			h := rn(maxsize)
-			content.AddObject(fc.Rect(x, y, w, h, color))
+			fc.Rect(canvas, x, y, w, h, color)
 		} else {
-			content.AddObject(fc.Circle(x, y, rn(maxsize), color))
+			fc.Circle(canvas, x, y, rn(maxsize), color)
 		}
 	}
 
 	w.Resize(fyne.NewSize(width, height))
 	w.SetFixedSize(true)
 	w.SetPadded(false)
-	w.SetContent(content)
+	w.SetContent(canvas)
 	if timing {
 		fmt.Printf("rendering time=%v\n", time.Since(bt))
 	}

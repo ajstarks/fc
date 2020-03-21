@@ -4,44 +4,44 @@
 
 ## Start -- begin the application
 
-	func Start(name string, w, h int) (fyne.Window, *fyne.Container) {
+	func Start(name string, w, h int) (c *fyne.Container, fyne.Window, *fyne.Container) {
 
 ### EndRun -- run the app
 
 	func End(window fyne.Window, content *fyne.Container, w, h int) {
 
-### Text -- return text at (x,y) with the specified size and color
+### Text -- Add text at (x,y) with the specified size and color
 
-	func Text(x, y int, s string, size int, color color.RGBA) *canvas.Text
+	func Text(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### TextMid -- return Center text
+### TextMid -- Add Center text
 
-	func TextMid(x, y int, s string, size int, color color.RGBA) *canvas.Text
+	func TextMid(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### TectEnd -- return End-Aligned text
+### TectEnd -- Add End-Aligned text
 
-	func TextEnd(x, y int, s string, size int, color color.RGBA) *canvas.Text
+	func TextEnd(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### Line -- return  a colored line from (x1,y1) to (x2, y2)
+### Line -- Add  a colored line from (c *fyne.Container, x1,y1) to (c *fyne.Container, x2, y2)
 
-	func Line(x1, y1, x2, y2 int, size float32, color color.RGBA) *canvas.Line
+	func Line(c *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA)
 
-### Circle --- return a circle object centered at (x,y) with radius r
+### Circle --- Add a circle object centered at (c *fyne.Container, x,y) with radius r
 
-	func Circle(x, y, r int, color color.RGBA) *canvas.Circle
+	func Circle(c *fyne.Container, x, y, r int, color color.RGBA)
 
-### CornerRect -- return a rectangle with (x,y) at the upper left, with dimension (w, h)
+### CornerRect -- Add a rectangle with (c *fyne.Container, x,y) at the upper left, with dimension (c *fyne.Container, w, h)
 
-	func CornerRect(x, y, w, h int, color color.RGBA) *canvas.Rectangle
+	func CornerRect(c *fyne.Container, x, y, w, h int, color color.RGBA)
 
-### Rect -- return a rectangle centered at (x,y), with dimension (w, h)
+### Rect -- Add a rectangle centered at (c *fyne.Container, x,y), with dimension (c *fyne.Container, w, h)
 
-	func Rect(x, y, w, h int, color color.RGBA) *canvas.Rectangle
+	func Rect(c *fyne.Container, x, y, w, h int, color color.RGBA)
 
-### Return an image named as (name) centered at (x, y) with dimensions (w, h)
+### Add an image named as name centered at (x, y) with dimensions ( w, h)
 
-	func Image(x, y, w, h int, name string) *canvas.Image
+	func Image(c *fyne.Container, x, y, w, h int, name string)
 
-### Return an named image with upper left at (x, y) with dimensions (w, h)
+### Add an named image with upper left at (x, y) with dimensions (w, h)
 
-	func CornerImage(x, y, w, h int, name string) *canvas.Image
+	func CornerImage(c *fyne.Container, x, y, w, h int, name string)
