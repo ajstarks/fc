@@ -22,19 +22,19 @@
 
 	func TextEnd(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### Line -- Add  a colored line from (c *fyne.Container, x1,y1) to (c *fyne.Container, x2, y2)
+### Line -- Add  a colored line from (x1,y1) to (x2, y2)
 
 	func Line(c *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA)
 
-### Circle --- Add a circle object centered at (c *fyne.Container, x,y) with radius r
+### Circle --- Add a circle object centered at (x,y) with radius r
 
 	func Circle(c *fyne.Container, x, y, r int, color color.RGBA)
 
-### CornerRect -- Add a rectangle with (c *fyne.Container, x,y) at the upper left, with dimension (c *fyne.Container, w, h)
+### CornerRect -- Add a rectangle with (c *fyne.Container, x,y) at the upper left, with dimension (w, h)
 
 	func CornerRect(c *fyne.Container, x, y, w, h int, color color.RGBA)
 
-### Rect -- Add a rectangle centered at (c *fyne.Container, x,y), with dimension (c *fyne.Container, w, h)
+### Rect -- Add a rectangle centered at (c *fyne.Container, x,y), with dimension (w, h)
 
 	func Rect(c *fyne.Container, x, y, w, h int, color color.RGBA)
 
