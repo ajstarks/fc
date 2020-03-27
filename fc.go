@@ -266,14 +266,16 @@ func (canvas *Canvas) Line(x1, y1, x2, y2, size float64, color color.RGBA) {
 // Rect places a rectangle centered on (x,y) within a container, using percent coordinates
 func (canvas *Canvas) Rect(x, y, w, h float64, color color.RGBA) {
 	x, y = dimen(x, y, canvas.Width, canvas.Height)
-	w, h = dimen(w, h, canvas.Width, canvas.Height)
-	AbsRect(canvas.Container, int(x), int(y), int(w), int(h), color)
+	w = pct(w, float64(canvas.Width))
+	h = pct(h, float64(canvas.Height))
+	AbsCornerRect(canvas.Container, int(x-(w/2)), int(y-(h/2)), int(w), int(h), color)
 }
 
 // CornerRect places a rectangle with upper left corner  on (x,y) within a container, using percent coordinates
 func (canvas *Canvas) CornerRect(x, y, w, h float64, color color.RGBA) {
 	x, y = dimen(x, y, canvas.Width, canvas.Height)
-	w, h = dimen(w, h, canvas.Width, canvas.Height)
+	w = pct(w, float64(canvas.Width))
+	h = pct(h, float64(canvas.Height))
 	AbsCornerRect(canvas.Container, int(x), int(y), int(w), int(h), color)
 }
 

@@ -18,35 +18,31 @@ func main() {
 	red := color.RGBA{255, 0, 0, 255}
 	yellow := color.RGBA{255, 255, 0, 255}
 
-	var border float32 = 4.0
-	w3 := width / 3
-	w6 := w3 / 2
-	w23 := w3 * 2
-	w36 := w3 - w6
-	ww6 := width - w6
-	hw6 := height - w6
-	hw3 := height - w3
+	third := 100.0 / 3
+
+	halft := third / 2
+	qt := third / 4
+	t2 := third * 2
+	tq := 100.0 - qt
+	t2h := t2 + halft
+
+	border := 1.0
 	b2 := border * 2
 
-	w, canvas := fc.Start("Mondrian", width, height)
-	fc.CornerRect(canvas, 0, 0, w3, w3, white)       // upper left white square
-	fc.CornerRect(canvas, 0, w3, w3, w3, white)      // middle left white square
-	fc.CornerRect(canvas, 0, w23, w3, w3, blue)      // lower left blue square
-	fc.CornerRect(canvas, w3, 0, w23, w23, red)      // large red square
-	fc.CornerRect(canvas, w3, w23, w23, w3, white)   // lower-middle white rectangle
-	fc.CornerRect(canvas, ww6, hw3, w36, w6, white)  // lower right white square
-	fc.CornerRect(canvas, ww6, hw6, w36, w6, yellow) // lower right yellow square
+	canvas := fc.NewCanvas("Mondrian", width, height)
+	canvas.CornerRect(0, 100, 100, 100, white)               // white background
+	canvas.Rect(halft, halft, third, third, blue)            // lower left blue square
+	canvas.Rect(t2, t2, t2, t2, red)                         // big red
+	canvas.Rect(tq, qt, halft, halft, yellow)                // small yellow lower right
+	canvas.Line(0, 0, 0, 100, b2, black)                     // left border
+	canvas.Line(100, 0, 100, 100, b2, black)                 // right border
+	canvas.Line(0, 0, 100, 0, b2, black)                     // top border
+	canvas.Line(0, 100, 100, 100, b2, black)                 // bottom border
+	canvas.Line(t2h, halft, t2h+halft, halft, border, black) // top of yellow square
+	canvas.Line(third, 100, third, 0, border, black)         //  first column border
+	canvas.Line(t2h, 0, t2h, third, border, black)           // left of small right squares
+	canvas.Line(0, third, 100, third, border, black)         // top of bottom squares
+	canvas.Line(0, t2, third, t2, border, black)             // border between left white squares
 
-	fc.Line(canvas, 0, 0, 0, height, b2, black)          // left border
-	fc.Line(canvas, width, 0, width, height, b2, black)  // right border
-	fc.Line(canvas, 0, 0, width, 0, b2, black)           // top border
-	fc.Line(canvas, 0, height, width, height, b2, black) // botom border
-
-	fc.Line(canvas, 0, w3, w3, w3, border, black)         // bottom of upper left white square
-	fc.Line(canvas, w3, 0, w3, height, border, black)     // right border for left-hand squares
-	fc.Line(canvas, 0, w23, width, w23, border, black)    // two-thirds border
-	fc.Line(canvas, ww6, hw3, ww6, height, border, black) // left border for small squares
-	fc.Line(canvas, ww6, hw6, width, hw6, border, black)  // top/bottom of small squares
-
-	fc.EndRun(w, canvas, width, height)
+	canvas.EndRun()
 }

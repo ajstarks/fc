@@ -9,16 +9,20 @@ import (
 	"github.com/ajstarks/fc"
 )
 
+func rn(n int) float64 {
+	return float64(rand.Intn(n))
+}
+
 func main() {
 
 	width := 500
 	height := 500
 	rand.Seed(time.Now().Unix())
-	w, content := fc.Start("Random Lines", width, height)
-	for i := 0; i < width; i++ {
+	canvas := fc.NewCanvas("Random Lines", width, height)
+	for x := 0.0; x < 100; x++ {
 		r := uint8(rand.Intn(255))
-		c := color.RGBA{r, r, r, 255}
-		fc.Line(content, i, 0, rand.Intn(width), height, 5, c)
+		c := color.RGBA{r, r, r, 100}
+		canvas.Line(x, 0, rn(100), 100, 1, c)
 	}
-	fc.EndRun(w, content, width, height)
+	canvas.EndRun()
 }

@@ -3,60 +3,42 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"image/color"
 	"math/rand"
-	"time"
 
-	"fyne.io/fyne"
 	"github.com/ajstarks/fc"
 )
 
-func rn(n int) int {
-	return rand.Intn(n)
+func rn(n int) float64 {
+	return float64(rand.Intn(n))
+
 }
 
 func rn8(n int) uint8 {
-	return uint8(rn(n))
+	return uint8(rand.Intn(n))
 }
 
 func main() {
-	var nshapes, width, height, maxsize int
-	var timing bool
+	var nshapes, width, height int
+	var maxsize int
+	flag.IntVar(&width, "w", 500, "width")
+	flag.IntVar(&height, "h", 500, "height")
 	flag.IntVar(&nshapes, "n", 500, "number of shapes")
-	flag.IntVar(&width, "w", 500, "canvas width")
-	flag.IntVar(&height, "h", 500, "canvas height")
-	flag.IntVar(&maxsize, "size", width/20, "max size")
-	flag.BoolVar(&timing, "t", false, "timing")
+	flag.IntVar(&maxsize, "size", 10, "max size")
 
 	flag.Parse()
 
-	var bt time.Time
-	if timing {
-		bt = time.Now()
-	}
-
-	w, canvas := fc.Start("Confetti", width, height)
-
+	canvas := fc.NewCanvas("Confetti", width, height)
+	canvas.Circle(50, 50, 5, color.RGBA{127, 0, 0, 255})
 	for i := 0; i < nshapes; i++ {
-		x := rn(width)
-		y := rn(height)
+		x := rn(100)
+		y := rn(100)
 		color := color.RGBA{rn8(255), rn8(255), rn8(255), rn8(255)}
 		if i%2 == 0 {
-			w := rn(maxsize)
-			h := rn(maxsize)
-			fc.Rect(canvas, x, y, w, h, color)
+			canvas.Rect(x, y, rn(maxsize), rn(maxsize), color)
 		} else {
-			fc.Circle(canvas, x, y, rn(maxsize), color)
+			canvas.Circle(x, y, rn(maxsize), color)
 		}
 	}
-
-	w.Resize(fyne.NewSize(width, height))
-	w.SetFixedSize(true)
-	w.SetPadded(false)
-	w.SetContent(canvas)
-	if timing {
-		fmt.Printf("rendering time=%v\n", time.Since(bt))
-	}
-	w.ShowAndRun()
+	canvas.EndRun()
 }

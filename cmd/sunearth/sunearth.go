@@ -7,6 +7,10 @@ import (
 	"github.com/ajstarks/fc"
 )
 
+func rn(n int) float64 {
+	return float64(rand.Intn(n))
+}
+
 func main() {
 
 	width := 500
@@ -16,16 +20,16 @@ func main() {
 	blue := color.RGBA{44, 77, 232, 255}
 	yellow := color.RGBA{255, 248, 231, 255}
 
-	earthsize := 4
+	earthsize := 1.6
 	sunsize := earthsize * 109
 
-	w, canvas := fc.Start("Sun+Earth", width, height)
-	fc.Circle(canvas, 150, 50, earthsize, blue)
-	fc.Circle(canvas, width, height, sunsize, yellow)
+	canvas := fc.NewCanvas("sun+earth", width, height)
+	canvas.Circle(30, 90, earthsize, blue)
+	canvas.Circle(100, 0, sunsize, yellow)
 
 	for i := 0; i < width; i++ {
-		x, y := rand.Intn(width), rand.Intn(height)
-		fc.Line(canvas, x, y, x, y+1, 0.4, white)
+		x, y := rn(100), rn(100)
+		canvas.Line(x, y, x+0.5, y, 0.05, white)
 	}
-	fc.EndRun(w, canvas, width, height)
+	canvas.EndRun()
 }
