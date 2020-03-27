@@ -4,6 +4,44 @@
 
 There are methods for Text (begin, centered, and end aligned), Circles, Lines, Rectangles, and Images.
 
+## Percent coordinate based methods
+
+### NewCanvas makes a new canvas
+	NewCanvas(name string, w, h int) Canvas
+
+### EndRun shows the content and runs the app
+	(canvas *Canvas) EndRun()
+
+### Text places text within a container, using percent coordinates
+	(canvas *Canvas) Text(x, y float64, size float64, s string, color color.RGBA) {
+
+
+### CText places centered text using percent coordinates
+	(canvas *Canvas) CText(x, y float64, size float64, s string, color color.RGBA) {
+	
+
+### EText places end-aligned text within a container, using percent coordinates
+	(canvas *Canvas) EText(x, y float64, size float64, s string, color color.RGBA) {
+	
+
+### Circle places a circle within a container, using percent coordinates
+	(canvas *Canvas) Circle(x, y, r float64, color color.RGBA) {
+	
+
+### Line places a line within a container, using percent coordinates
+	(canvas *Canvas) Line(x1, y1, x2, y2, size float64, color color.RGBA) {
+	
+
+### Rect places a rectangle centered on (x,y) within a container, using percent coordinates
+	(canvas *Canvas) Rect(x, y, w, h float64, color color.RGBA) {
+	
+
+### CornerRect places a rectangle with upper left corner  on (x,y) within a container, using percent coordinates
+	(canvas *Canvas) CornerRect(x, y, w, h float64, color color.RGBA) {
+	
+### Image places an image centered at (x, y) within a container, using percent coordinates
+	(canvas *Canvas) Image(x, y float64, w, h int, name string) {
+	
 
 ## Absolute methods: uses absolute coordinate system and fyne structures directly
 
