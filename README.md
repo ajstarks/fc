@@ -1,47 +1,53 @@
 # fc - high-level canvas for the fyne toolkit
 
-## methods
+## Introduction
 
-## Start -- begin the application
+There are methods for Text (begin, centered, and end aligned), Circles, Lines, Rectangles, and Images.
 
-	func Start(name string, w, h int) (c *fyne.Container, fyne.Window, *fyne.Container) {
 
-### EndRun -- run the app
+## Absolute methods: uses absolute coordinate system and fyne structures directly
 
-	func End(window fyne.Window, content *fyne.Container, w, h int) {
+### AbsStart -- begin the application
 
-### Text -- Add text at (x,y) with the specified size and color
+	func AbsStart(name string, w, h int) (fyne.Window, *fyne.Container)
 
-	func Text(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### TextMid -- Add Center text
+### AbsEndRun -- run the app
 
-	func TextMid(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
+	func AbsEnd(window fyne.Window, content *fyne.Container, w, h int) {
 
-### TectEnd -- Add End-Aligned text
+### AbsText -- Add text at (x,y) with the specified size and color
 
-	func TextEnd(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
+	func AbsText(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### Line -- Add  a colored line from (x1,y1) to (x2, y2)
+### AbsTextMid -- Add Center text
 
-	func Line(c *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA)
+	func AbsTextMid(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### Circle --- Add a circle object centered at (x,y) with radius r
+### AbsTectEnd -- Add End-Aligned text
 
-	func Circle(c *fyne.Container, x, y, r int, color color.RGBA)
+	func AbsTextEnd(c *fyne.Container, x, y int, s string, size int, color color.RGBA)
 
-### CornerRect -- Add a rectangle with (c *fyne.Container, x,y) at the upper left, with dimension (w, h)
+### AbsLine -- Add  a colored line from (x1,y1) to (x2, y2)
 
-	func CornerRect(c *fyne.Container, x, y, w, h int, color color.RGBA)
+	func AbsLine(c *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA)
 
-### Rect -- Add a rectangle centered at (c *fyne.Container, x,y), with dimension (w, h)
+### AbsCircle --- Add a circle object centered at (x,y) with radius r
 
-	func Rect(c *fyne.Container, x, y, w, h int, color color.RGBA)
+	func AbsCircle(c *fyne.Container, x, y, r int, color color.RGBA)
 
-### Add an image named as name centered at (x, y) with dimensions ( w, h)
+### AbsCornerRect -- Add a rectangle with (c *fyne.Container, x,y) at the upper left, with dimension (w, h)
 
-	func Image(c *fyne.Container, x, y, w, h int, name string)
+	func AbsCornerRect(c *fyne.Container, x, y, w, h int, color color.RGBA)
 
-### Add an named image with upper left at (x, y) with dimensions (w, h)
+### AbsRect -- Add a rectangle centered at (c *fyne.Container, x,y), with dimension (w, h)
 
-	func CornerImage(c *fyne.Container, x, y, w, h int, name string)
+	func AbsRect(c *fyne.Container, x, y, w, h int, color color.RGBA)
+
+### AbsAdd an image named as name centered at (x, y) with dimensions ( w, h)
+
+	func AbsImage(c *fyne.Container, x, y, w, h int, name string)
+
+### AbsAdd an named image with upper left at (x, y) with dimensions (w, h)
+
+	func AbsCornerImage(c *fyne.Container, x, y, w, h int, name string)
