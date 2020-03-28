@@ -25,7 +25,6 @@ func main() {
 	flag.IntVar(&height, "h", 500, "height")
 	flag.IntVar(&nshapes, "n", 500, "number of shapes")
 	flag.IntVar(&maxsize, "size", 10, "max size")
-
 	flag.Parse()
 
 	canvas := fc.NewCanvas("Confetti", width, height)
