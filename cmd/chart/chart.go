@@ -230,13 +230,13 @@ func composite(canvas fc.Canvas) error {
 	cosine.color = color.RGBA{0, 128, 0, 255}
 	sine.color = color.RGBA{128, 0, 0, 255}
 	cosine.Scatter(canvas, 0.75)
-
-	sine.Scatter(canvas, 0.5)
+	sine.Scatter(canvas, 0.75)
 
 	sine.left = 10
 	sine.right = sine.left + 40
 	sine.top, cosine.top = 30, 30
 	sine.bottom, cosine.bottom = 10, 10
+
 	sine.Title(canvas, 2, 2)
 	sine.Frame(canvas, 5)
 	sine.Scatter(canvas, 0.5)
