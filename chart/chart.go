@@ -1,3 +1,4 @@
+// Package chart makes charts using the fync canvas package
 package chart
 
 import (
@@ -174,15 +175,12 @@ func Grid(canvas fc.Canvas, left, bottom, width, height, size float64, color col
 // YAxis makes the Y axis with optional grid lines
 func (c *ChartBox) YAxis(canvas fc.Canvas, size, min, max, step float64, format string, gridlines bool) {
 	w := c.Right - c.Left
-	y := c.Bottom
-	nlabels := (max - min) / step
-	n := (c.Top - c.Bottom) / nlabels
 	for v := min; v <= max; v += step {
+		y := fc.MapRange(v, min, max, c.Bottom, c.Top)
 		if gridlines {
 			canvas.Line(c.Left, y, c.Left+w, y, 0.05, color.RGBA{128, 128, 128, 255})
 		}
 		canvas.EText(c.Left-2, y-(size/3), size, fmt.Sprintf(format, v), c.Color)
-		y += n
 	}
 }
 
