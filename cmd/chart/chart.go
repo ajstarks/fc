@@ -202,20 +202,61 @@ func (c *ChartBox) Frame(canvas fc.Canvas, op float64) {
 	c.color.A = a // Restore opacity
 }
 
-func main() {
-	var width, height int
-	flag.IntVar(&width, "w", 500, "canvas width")
-	flag.IntVar(&height, "h", 500, "canvas height")
-	flag.Parse()
+func composite(canvas fc.Canvas) error {
+	sr, err := os.Open("sin.d")
+	if err != nil {
+		return err
+	}
+	cr, err := os.Open("cos.d")
+	if err != nil {
+		return err
+	}
+	sine, err := DataRead(sr)
+	if err != nil {
+		return err
+	}
+	cosine, err := DataRead(cr)
+	if err != nil {
+		return err
+	}
+	sr.Close()
+	cr.Close()
 
-	canvas := fc.NewCanvas("Chart", width, height)
-	canvas.Rect(50, 50, 100, 100, color.RGBA{255, 255, 255, 255})
+	sine.zerobased, cosine.zerobased = false, false
+
+	cosine.Frame(canvas, 5)
+	cosine.Label(canvas, 1.5, 10)
+	cosine.YAxis(canvas, 1.2, -1.0, 1.0, 1.0, "%0.2f", true)
+	cosine.color = color.RGBA{0, 128, 0, 255}
+	sine.color = color.RGBA{128, 0, 0, 255}
+	cosine.Scatter(canvas, 0.75)
+
+	sine.Scatter(canvas, 0.5)
+
+	sine.left = 10
+	sine.right = sine.left + 40
+	sine.top, cosine.top = 30, 30
+	sine.bottom, cosine.bottom = 10, 10
+	sine.Title(canvas, 2, 2)
+	sine.Frame(canvas, 5)
+	sine.Scatter(canvas, 0.5)
+
+	offset := 45.0
+	cosine.left = sine.left + offset
+	cosine.right = sine.right + offset
+
+	cosine.Title(canvas, 2, 2)
+	cosine.Frame(canvas, 5)
+	cosine.Scatter(canvas, 0.5)
+
+	return nil
+}
+
+func playground(canvas fc.Canvas) error {
 	chart, err := DataRead(os.Stdin)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
+		return err
 	}
-
 	red := color.RGBA{127, 0, 0, 255}
 	black := color.RGBA{0, 0, 0, 255}
 
@@ -255,5 +296,20 @@ func main() {
 	chart.color = red
 	chart.HBar(canvas, 0.2, 1.1, 1)
 	chart.Frame(canvas, 5)
+	return nil
+}
+func main() {
+	var width, height int
+	flag.IntVar(&width, "w", 500, "canvas width")
+	flag.IntVar(&height, "h", 500, "canvas height")
+	flag.Parse()
+
+	canvas := fc.NewCanvas("Chart", width, height)
+	canvas.Rect(50, 50, 100, 100, color.RGBA{255, 255, 255, 255})
+	err := composite(canvas)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
 	canvas.EndRun()
 }
