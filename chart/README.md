@@ -7,26 +7,57 @@ within a scalable area defined by a top, bottom, left, right.
 ![chart](sine-cosine.png)
 
 ```
-	chart, err := DataRead(os.Stdin)
+	// Open data files
+	sr, err := os.Open("sin.d")
 	if err != nil {
 		return err
 	}
-	red := color.RGBA{127, 0, 0, 255}
-	black := color.RGBA{0, 0, 0, 255}
+	cr, err := os.Open("cos.d")
+	if err != nil {
+		return err
+	}
 
-	textsize := 1.2
-	chart.top = 90
-	chart.left = 15
-	chart.bottom = 70
+	// Read in the data
+	sine, err := chart.DataRead(sr)
+	if err != nil {
+		return err
+	}
+	cosine, err := chart.DataRead(cr)
+	if err != nil {
+		return err
+	}
+	sr.Close()
+	cr.Close()
 
-	chart.Title(canvas, 2, 2)
-	chart.Frame(canvas, 5)
-	chart.YAxis(canvas, textsize, 0, 800000, 100000, "%0.f", false)
-	chart.Label(canvas, textsize, 5)
-	chart.color = black
-	chart.Scatter(canvas, 0.5)
-	chart.color = red
-	chart.Line(canvas, 0.1)
-	chart.Bar(canvas, 0.25)
+
+	// Compose elements
+	sine.Zerobased, cosine.Zerobased = false, false
+
+	// composite two charts
+	cosine.Frame(canvas, 5)
+	cosine.Label(canvas, 1.5, 10)
+	cosine.YAxis(canvas, 1.2, -1.0, 1.0, 1.0, "%0.2f", true)
+	cosine.Color = color.RGBA{0, 128, 0, 255}
+	sine.Color = color.RGBA{128, 0, 0, 255}
+	cosine.Scatter(canvas, 0.75)
+	sine.Scatter(canvas, 0.75)
+
+	// two charts side by side
+	sine.Left = 10
+	sine.Right = sine.Left + 40
+	sine.Top, cosine.Top = 30, 30
+	sine.Bottom, cosine.Bottom = 10, 10
+
+	sine.CTitle(canvas, 2, 2)
+	sine.Frame(canvas, 5)
+	sine.Scatter(canvas, 0.5)
+
+	offset := 45.0
+	cosine.Left = sine.Left + offset
+	cosine.Right = sine.Right + offset
+
+	cosine.CTitle(canvas, 2, 2)
+	cosine.Frame(canvas, 5)
+	cosine.Scatter(canvas, 0.5)
 
 ```
