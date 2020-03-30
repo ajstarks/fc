@@ -1,3 +1,4 @@
+// fchart -- command line chart using fc chart packages
 package main
 
 import (
@@ -14,8 +15,8 @@ func main() {
 
 	// Command line options
 	var width, height, xlabel int
-	var barwidth, linewidth, linespacing, dotsize, textsize, frameOp, top, bottom, left, right float64
-	var chartitle, yrange string
+	var barwidth, linewidth, linespacing, dotsize, textsize, ty, frameOp, top, bottom, left, right float64
+	var chartitle, yrange, yaxfmt string
 	var zb, line, bar, hbar, scatter, showtitle, showgrid bool
 	flag.IntVar(&width, "w", 800, "canvas width")
 	flag.IntVar(&height, "h", 800, "canvas height")
@@ -29,9 +30,11 @@ func main() {
 	flag.Float64Var(&bottom, "bottom", 40, "bar width")
 	flag.Float64Var(&left, "left", 10, "bar width")
 	flag.Float64Var(&right, "right", 90, "bar width")
+	flag.Float64Var(&ty, "ty", 5, "title position relative to the top")
 	flag.Float64Var(&frameOp, "frame", 0, "frame opacity")
 	flag.StringVar(&yrange, "yrange", "", "y axis range (min,max,step")
 	flag.StringVar(&chartitle, "chartitle", "", "chart title")
+	flag.StringVar(&yaxfmt, "yfmt", "%v", "yaxis format")
 	flag.BoolVar(&showtitle, "title", true, "show the title")
 	flag.BoolVar(&showgrid, "grid", false, "show y axis grid")
 	flag.BoolVar(&zb, "zero", true, "zero minumum")
@@ -42,12 +45,14 @@ func main() {
 	flag.Parse()
 
 	// Read in the data
-	canvas := fc.NewCanvas("Chart", width, height)
 	chart, err := chart.DataRead(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
+
+	// Define the canvas
+	canvas := fc.NewCanvas(fmt.Sprintf("Chart: %s", chart.Title), width, height)
 
 	// Define the colors
 	datacolor := color.RGBA{176, 196, 222, 255}
@@ -84,7 +89,7 @@ func main() {
 		if len(yrange) > 0 {
 			var yaxmin, yaxmax, yaxstep float64
 			if n, err := fmt.Sscanf(yrange, "%v,%v,%v", &yaxmin, &yaxmax, &yaxstep); n == 3 && err == nil {
-				chart.YAxis(canvas, textsize, yaxmin, yaxmax, yaxstep, "%v", showgrid)
+				chart.YAxis(canvas, textsize, yaxmin, yaxmax, yaxstep, yaxfmt, showgrid)
 			}
 		}
 	}
@@ -94,7 +99,7 @@ func main() {
 		chart.Title = chartitle
 	}
 	if showtitle && len(chart.Title) > 0 {
-		chart.CTitle(canvas, textsize*2, 2)
+		chart.CTitle(canvas, textsize*2, ty)
 	}
 
 	// Show the chart

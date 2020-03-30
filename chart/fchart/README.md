@@ -1,5 +1,9 @@
 # fchart -- fync canvas charting command
 
+![fchart-sine](fchart-sine.png)
+
+```fchart -scatter -dotsize=1 -line -zero=f -xlabel=10 -grid -yrange=-1,1,0.25 < sin.d```
+
 ## options
 ```
   -bar
