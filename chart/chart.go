@@ -175,8 +175,9 @@ func Grid(canvas fc.Canvas, left, bottom, width, height, size float64, color col
 // YAxis makes the Y axis with optional grid lines
 func (c *ChartBox) YAxis(canvas fc.Canvas, size, min, max, step float64, format string, gridlines bool) {
 	w := c.Right - c.Left
+	ymin := zerobase(c.Zerobased, c.Minvalue)
 	for v := min; v <= max; v += step {
-		y := fc.MapRange(v, min, max, c.Bottom, c.Top)
+		y := fc.MapRange(v, ymin, c.Maxvalue, c.Bottom, c.Top)
 		if gridlines {
 			canvas.Line(c.Left, y, c.Left+w, y, 0.05, color.RGBA{128, 128, 128, 255})
 		}
