@@ -63,12 +63,12 @@ func AbsStart(name string, w, h int) (fyne.Window, *fyne.Container) {
 }
 
 // EndRun shows the content and runs the app
-func (canvas *Canvas) EndRun() {
-	window := canvas.Window
-	window.Resize(fyne.NewSize(int(canvas.Width), int(canvas.Height)))
+func (c *Canvas) EndRun() {
+	window := c.Window
+	window.Resize(fyne.NewSize(int(c.Width), int(c.Height)))
 	window.SetFixedSize(true)
 	window.SetPadded(false)
-	window.SetContent(canvas.Container)
+	window.SetContent(c.Container)
 	window.ShowAndRun()
 }
 
