@@ -162,10 +162,9 @@ var colornames = map[string]RGB{
 	"yellowgreen":          {154, 205, 50},
 }
 
-// Colorlookup returns a color.RGBA  corresponding to the named color or "rgb(r,g,b)" string.
+// ColorLookup returns a color.RGBA  corresponding to the named color or "rgb(r,g,b)" string.
 // On error, return black.
-func Colorlookup(s string) color.RGBA {
-
+func ColorLookup(s string) color.RGBA {
 	c, ok := colornames[s]
 	if ok {
 		return color.RGBA{c.red, c.green, c.blue, 255}
