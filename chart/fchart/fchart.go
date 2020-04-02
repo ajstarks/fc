@@ -16,10 +16,10 @@ func main() {
 	// Command line options
 	var width, height, xlabel int
 	var barwidth, linewidth, linespacing, dotsize, textsize, ty, frameOp, top, bottom, left, right float64
-	var chartitle, yrange, yaxfmt string
+	var chartitle, yrange, yaxfmt, dcolor string
 	var zb, line, bar, hbar, scatter, showtitle, showgrid bool
-	flag.IntVar(&width, "w", 800, "canvas width")
-	flag.IntVar(&height, "h", 800, "canvas height")
+	flag.IntVar(&width, "w", 600, "canvas width")
+	flag.IntVar(&height, "h", 600, "canvas height")
 	flag.IntVar(&xlabel, "xlabel", 1, "x-xaxis label")
 	flag.Float64Var(&barwidth, "barwidth", 0.5, "bar width")
 	flag.Float64Var(&linewidth, "linewidth", 0.25, "bar width")
@@ -35,6 +35,7 @@ func main() {
 	flag.StringVar(&yrange, "yrange", "", "y axis range (min,max,step")
 	flag.StringVar(&chartitle, "chartitle", "", "chart title")
 	flag.StringVar(&yaxfmt, "yfmt", "%v", "yaxis format")
+	flag.StringVar(&dcolor, "color", "steelblue", "color")
 	flag.BoolVar(&showtitle, "title", true, "show the title")
 	flag.BoolVar(&showgrid, "grid", false, "show y axis grid")
 	flag.BoolVar(&zb, "zero", true, "zero minumum")
@@ -55,7 +56,7 @@ func main() {
 	canvas := fc.NewCanvas(fmt.Sprintf("Chart: %s", chart.Title), width, height)
 
 	// Define the colors
-	datacolor := color.RGBA{176, 196, 222, 255}
+	datacolor := fc.ColorLookup(dcolor)
 	labelcolor := color.RGBA{100, 100, 100, 255}
 	bgcolor := color.RGBA{255, 255, 255, 255}
 	canvas.Rect(50, 50, 100, 100, bgcolor)

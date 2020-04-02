@@ -230,7 +230,7 @@ func AbsCornerImage(cont *fyne.Container, x, y, w, h int, name string) {
 // TextWidth returns the width of a string
 func (c *Canvas) TextWidth(s string, size float64) float64 {
 	t := &canvas.Text{Text: s, TextSize: int(pct(size, c.Width))}
-	return float64(t.MinSize().Width)
+	return (float64(t.MinSize().Width) / float64(c.Width)) * 100
 }
 
 // Text places text within a container, using percent coordinates

@@ -176,7 +176,7 @@ func ColorLookup(s string) color.RGBA {
 		if n != 3 || err != nil {
 			return black
 		}
-		return color.RGBA{c.red, c.green, c.blue, 255}
+		return color.RGBA{red, green, blue, 255}
 	}
 	return black
 }
