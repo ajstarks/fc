@@ -34,11 +34,9 @@ func MapRange(value, low1, high1, low2, high2 float64) float64 {
 	return low2 + (high2-low2)*(value-low1)/(high1-low1)
 }
 
-const pi = 3.14159265358979323846264338327950288419716939937510582097494459 // https://oeis.org/A000796
-
 // Radians converts degrees to radians
 func Radians(deg float64) float64 {
-	return (deg * pi) / 180.0
+	return (deg * math.Pi) / 180.0
 }
 
 // Polar returns the euclidian corrdinates from polar coordinates
@@ -179,6 +177,18 @@ func AbsTextEnd(cont *fyne.Container, x, y int, s string, size int, color color.
 
 // AbsLine draws a line within a container
 func AbsLine(cont *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA) {
+
+	// currently there is a cap of StrokeWidth > 10 for straight lines, so make rectangles
+	if x1 == x2 && size > 10 { // vertical line
+		lineLength := y2 - y1
+		AbsRect(cont, x1, y1+(lineLength/2), int(size), lineLength, color)
+		return
+	}
+	if y1 == y2 && size > 10 { // horizontal line
+		lineLength := x2 - x1
+		AbsRect(cont, x1+(lineLength/2), y1, lineLength, int(size), color)
+		return
+	}
 	p1 := fyne.Position{X: x1, Y: y1}
 	p2 := fyne.Position{X: x2, Y: y2}
 	cont.AddObject(&canvas.Line{StrokeColor: color, StrokeWidth: size, Position1: p1, Position2: p2})
@@ -265,8 +275,9 @@ func (c *Canvas) Circle(x, y, r float64, color color.RGBA) {
 func (c *Canvas) Line(x1, y1, x2, y2, size float64, color color.RGBA) {
 	x1, y1 = dimen(x1, y1, c.Width, c.Height)
 	x2, y2 = dimen(x2, y2, c.Width, c.Height)
-	size = pct(size, c.Width)
-	AbsLine(c.Container, int(x1), int(y1), int(x2), int(y2), float32(size), color)
+	lsize := pct(size, c.Width)
+	AbsLine(c.Container, int(x1), int(y1), int(x2), int(y2), float32(lsize), color)
+
 }
 
 // Rect places a rectangle centered on (x,y) within a container, using percent coordinates
