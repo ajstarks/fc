@@ -188,4 +188,19 @@ deck
 		image "images/hello.png" 78 45 802 830
 		textfile "code/hello.go" left 80 ms "mono"
 	eslide
+
+	// fc/chart
+	slide bgcolor fgcolor
+		rect 50 95 100 20 "black"
+		ctext "fc/chart:" 50 top ts
+		image "images/sine-cosine.png" 50 42 1702 1730 50
+ 	eslide
+
+
+	// fc/chart data
+	slide bgcolor fgcolor
+		rect 50 95 100 20 "black"
+		ctext "fc/chart: data structures" 50 top ts
+		textfile "code/chartbox.go" left 80 2 "mono"
+ 	eslide
 edeck
