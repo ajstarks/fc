@@ -12,14 +12,14 @@ deck
 
 	bgcolor="rgb(50,50,50)"
 	fgcolor="rgb(250,250,250)"
-	coordcolor="orangered"
+	spotcolor="orangered"
 
 	// Title page
 	slide "black" fgcolor
-		text "fc" 10 90 ts "sans" coordcolor
+		text "fc" 10 90 ts "sans" spotcolor
 		text "a high-level canvas API for the fyne toolkit" 15 90 ts
-		image "images/fyne-clients0.png"  50 50 2863 1612 45
-		ctext "Anthony Starks      @ajstarks" 50 5 ls
+		image "images/fyne-clients0.png"  50 50 2863 1612 47
+		ctext "Anthony Starks / @ajstarks" 50 7 ls
 
 	eslide
 
@@ -28,56 +28,56 @@ deck
 		op=40
 		coordsize=1.5
 		elcolor=fgcolor
-		rect 50 95 100 20 "black"
+		rect 50 92.5 100 15 "black"
 		ctext "Elements" 50 top ts
 		text "Text"  5 70 4
 		ctext "CText" 50 70 4
 		etext "EText" 95 70 4
-		circle 5 70 coordsize coordcolor op
-		circle 50 70 coordsize coordcolor op
-		circle 95 70 coordsize coordcolor op
+		circle 5 70 coordsize spotcolor op
+		circle 50 70 coordsize spotcolor op
+		circle 95 70 coordsize spotcolor op
 
 		circle 25 50 10 elcolor
-		circle 25 50 coordsize coordcolor op
+		circle 25 50 coordsize spotcolor op
 		ctext "circle" 25 35 2
 
-		circle 45 60 coordsize coordcolor op
-		circle 60 40 coordsize coordcolor op
+		circle 45 60 coordsize spotcolor op
+		circle 60 40 coordsize spotcolor op
 		line   45 60 60 40 0.5 elcolor
 		ctext "line" 50 35 2
 
 		rect 75 50 15 10 elcolor 
-		circle 75 50 coordsize coordcolor op
+		circle 75 50 coordsize spotcolor op
 		ctext "rectangle" 75 35 2
 
 		cimage "images/earth.jpg" "image" 50 20 200 200
-		circle 50 20 coordsize coordcolor op
+		circle 50 20 coordsize spotcolor op
 	eslide
 
 	// grid
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
+		rect 50 92.5 100 15 "black"
 		ctext "Percentage-based Grid" 50 top ts
 		include "showgrid.dsh"
 	eslide
 
 	// Objects on the grid
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
+		rect 50 92.5 100 15 "black"
 		ctext "Using the Percentage-based Grid" 50 top ts
 
 		include "showgrid.dsh"
 		
 		circle 40 45 10 fgcolor 40
-		circle 40 45 1 coordcolor 60
+		circle 40 45 1 spotcolor 60
 		ctext "(50, 50)" 40 40 2
 		ctext "(90, 90)" 60 55 2
 		ctext "(10, 10)" 20 22 2
 		ctext "(30, 70)" 30 57 2
 
 		line 20 25 30 55 0.5 fgcolor 40
-		circle 20 25 1 coordcolor 60
-		circle 30 55 1 coordcolor 60
+		circle 20 25 1 spotcolor 60
+		circle 30 55 1 spotcolor 60
 
 		text "Rect(90, 80, ...)"   70 65 2
 		text "Circle(50, 50, ...)" 70 45 2
@@ -86,8 +86,9 @@ deck
 
 	// fc structures
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
-		ctext "fc structures" 50 top ts
+		rect 50 92.5 100 15 "black"
+		text "fc"                      31 top ts "sans" spotcolor
+		text "structure and operation" 35 top ts
 		textfile "code/nc.go" left 65 1.8 "mono"
 
 		rect 70 50 40.5 41 fgcolor
@@ -102,13 +103,13 @@ deck
 
 		circle 70 50 5 fgcolor 50
 		ctext "position, add to container" 70 40 codesize
-		circle 70 50 1 coordcolor 60
+		circle 70 50 1 spotcolor 60
  	eslide
 
 
 	// % Methods
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
+		rect 50 92.5 100 15 "black"
 		ctext "Percentage-based Methods on *Canvas" 50 top ts
 
 		list left listop ls
@@ -144,7 +145,7 @@ deck
 
 	// Convenience methods
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
+		rect 50 92.5 100 15 "black"
 		ctext "Convenience methods" 50 top ts
 
 		list left 60 ls
@@ -162,70 +163,42 @@ deck
 		elist
 	eslide
 
-	// Abs Methods
-	// slide bgcolor fgcolor
-	// 	rect 50 95 100 20 "black"
-	// 	ctext "Absolute Coordinate Methods" 50 top ts
-
-	// 	list left listop ls
-	// 		li "Place text, left-aligned"
-	// 		li "Place centered text"
-	// 		li "Place end-aligned text"
-	// 		li ""
-	// 		li "Make a circle centered (x,y)"
-	// 		li "Rectangle with corner at (x,y)"
-	// 		li "Rectangle centered at (x,y)"
-	// 		li "Draw line from (x1,y) to (x2,y2)"
-	// 		li "Image upper-left corner at (x,y)"
-	// 		li "Image centered at (x,y)"
-	// 		li ""
-	// 		li "New app context"
-	// 		li "Display and run"
-	// 	elist
-
-	// 	list codeleft listop ls "mono"
-	// 		li "AbsText(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
-	// 		li "AbsTextMid(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
-	// 		li "AbsTextEnd(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
-	// 		li ""
-	// 		li "AbsCircle(c *fyne.Container,x,y,r int,fill color.RGBA)"
-	// 		li "AbsCornerRect(c *fyne.Container,x,y,w,h int,fill color.RGBA)"
-	// 		li "AbsRect(c *fyne.Container,x,y,w,h int,fill color.RGBA)"
-	// 		li "AbsLine(c *fyne.Container,x1,y1,x2,y2 int,size float32,stroke color.RGBA)"
-	// 		li "AbsCornerImage(c *fyne.Container,x,y,w,h int,name string)"
-	// 		li "AbsImage(c *fyne.Container,x,y,w,h int,name string)"
-	// 		li ""
-	// 		li "AbsStart(name string,w,h int) (fyne.Window,*fyne.Container)"
-	// 		li "AbsEndRun(window fyne.Window,c *fyne.Container,w,h int)"			
-	// 	elist
-	// eslide
-
 	// hello, world
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
-		ctext     "hello, (fc) world"   50 top ts
+		rect 50 92.5 100 15 "black"
+		text      "fc"             35 top ts "sans" spotcolor
+		text     "hello, world"    40 top ts
 		image     "images/hello.png"    75 45 802 830
 		textfile  "code/hello.go"       left 80 1.5 "mono"
 	eslide
 
-	// fc/chart
+	// fc/chart intro
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
-		ctext "fc/chart:" 50 top ts
-		image "images/sine-cosine.png" 75 44 1702 1730 48
-		textfile "code/composite.go"   left 80 1.3 "mono"
+		rect 50 92.5 100 15 "black"
+		ctext "fc/chart" 50 top ts
+		textblock "Scalable, modular, composable charts" left listop 20 3
+		blist left 55 2
+			li "Bar charts"
+			li "Column Charts"
+			li "Line charts"
+			li "Scatter charts"
+			li "Title"
+			li "Axes"
+			li "Frames"
+		elist
+		image "images/sine-cosine.png" 70 42 1420 1430 60
  	eslide
 
-	// fc/chart data
+	// fc/chart structures
 	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
+		rect 50 92.5 100 15 "black"
 		ctext "fc/chart: data structures" 50 top ts
 		textfile "code/chartbox.go" left listop codesize "mono"
  	eslide
 
 	 // fc/chart methods
 	 slide bgcolor fgcolor
-	 	rect 50 95 100 20 "black"
+	 	rect 50 92.5 100 15 "black"
 		ctext "fc/chart methods on *ChartBox" 50 top ts
 
 		list left listop ls
@@ -255,4 +228,72 @@ deck
 		elist
 	eslide
 
+	// slide bgcolor fgcolor
+	slide bgcolor fgcolor
+		rect 50 92.5 100 15 "black"
+		ctext "fc/chart: read data" 50 top ts
+		textfile "code/chartread.go"   left listop codesize "mono"
+		textfile "code/sin.d"          50   listop codesize "mono" 
+		textfile "code/cos.d"          70   listop codesize "mono"
+	eslide
+
+	// fc/chart composite
+	slide bgcolor fgcolor
+		rect 50 92.5 100 15 "black"
+		ctext "fc/chart: two data sets" 50 top ts
+		image "images/sc0.png" 76 44 1321 744 65
+		textfile "code/sc0.go" 5 60 codesize "mono"
+ 	eslide
+
+	// fc/chart side by side
+	slide bgcolor fgcolor
+		rect 50 92.5 100 15 "black"
+		ctext "fc/chart: side by side" 50 top ts
+		image "images/sc1.png" 75 44 1295 555 70
+		textfile "code/sc1.go"   left listop codesize "mono"
+ 	eslide
+
+	//  slide bgcolor fgcolor
+	// 	rect 50 92.5 100 15 "black"
+	// 	ctext "fc/chart: construct the charts" 50 top ts
+	// 	image "images/sine-cosine.png" 75 44 1402 1430 60
+	// 	textfile "code/composite.go"   left 80 1.3 "mono"
+ 	// eslide
+
+	// fcdeck
+	slide bgcolor fgcolor
+		rect 50 92.5 100 15 "black"
+		ctext "fcdeck: decksh viewer" 50 top ts
+		image "images/fcdeck0.png" 40 58 1741 1368 40
+		image "images/fcdeck1.png" 55 42 1741 1368 40
+		image "images/fcdeck2.png" 70 30 1741 1368 40
+ 	eslide
+
+	// client gallery
+	slide bgcolor fgcolor
+		imscale=40
+		rect 50 92.5 100 15 "black"
+		ctext "demo/test clients" 50 top ts
+		cimage "images/hello.png"      "hello"       25 65 802 830 imscale
+		cimage "images/confetti.png"   "confetti"    50 65 802 830 imscale
+		cimage "images/eclipse.png"    "eclipse"      75 65 802 830 imscale
+		cimage "images/mondrian.png"   "mondrian"     25 25 802 830 imscale
+		cimage "images/sunearth.png"   "sunearth"     50 25 802 830 imscale
+		cimage "images/cloud.png"      "cloud"        75 25 802 830 imscale
+ 	eslide
+
+	// go get it
+	slide bgcolor fgcolor
+		rect 50 92.5 100 15 "black"
+		ctext "go get it" 50 top ts
+		list 20 60 4
+			li "fc"
+			li "fc/chart"
+		elist
+
+		list 40 60 4 "mono"
+			li "github.com/ajstarks/fc"
+			li "github.com/ajstarks/fc/chart"
+		elist
+	eslide
 edeck
