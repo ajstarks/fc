@@ -2,27 +2,30 @@ deck
 	canvas 1920 1080
 	ts=4
 	ls=ts*0.4
-	ms=1.5
+	codesize=1.6
 	
-	left=5
-	codeleft=left+27
+	left=10
+	codeleft=left+28
 	top=90
+	listop=top-15
+
+
 	bgcolor="rgb(50,50,50)"
 	fgcolor="rgb(250,250,250)"
+	coordcolor="orangered"
 
 	// Title page
-	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
-		ctext "fc: a high-level canvas API for the fyne toolkit" 50 90 ts
-		image "images/fyne-clients0.png"  50 45 2863 1612 50
-		ctext "Anthony Starks      @ajstarks" 50 3 ls
+	slide "black" fgcolor
+		text "fc" 10 90 ts "sans" coordcolor
+		text "a high-level canvas API for the fyne toolkit" 15 90 ts
+		image "images/fyne-clients0.png"  50 50 2863 1612 45
+		ctext "Anthony Starks      @ajstarks" 50 5 ls
 
 	eslide
 
 	// Elements
 	slide bgcolor fgcolor
 		op=40
-		coordcolor="orangered"
 		coordsize=1.5
 		elcolor=fgcolor
 		rect 50 95 100 20 "black"
@@ -58,7 +61,6 @@ deck
 		include "showgrid.dsh"
 	eslide
 
-
 	// Objects on the grid
 	slide bgcolor fgcolor
 		rect 50 95 100 20 "black"
@@ -82,43 +84,60 @@ deck
 		text "Line(10, 10, 30, 70, ...)" 70 25 2
 	eslide
 
+	// fc structures
+	slide bgcolor fgcolor
+		rect 50 95 100 20 "black"
+		ctext "fc structures" 50 top ts
+		textfile "code/nc.go" left 65 1.8 "mono"
+
+		rect 70 50 40.5 41 fgcolor
+		rect 70 50 40 40 "black"
+		ctext "Width" 70 25 ls
+		arrow 65 26 50 26 0.1 1 2
+		arrow 75 26 90 26 0.1 1 2
+
+		ctext "Height" 95 51 ls
+		arrow 95 45 95 30 0.1 2 1
+		arrow 95 55 95 70 0.1 2 1
+
+		circle 70 50 5 fgcolor 50
+		ctext "position, add to container" 70 40 codesize
+		circle 70 50 1 coordcolor 60
+ 	eslide
+
 
 	// % Methods
 	slide bgcolor fgcolor
 		rect 50 95 100 20 "black"
-		ctext "Percentage-based Methods" 50 top ts
+		ctext "Percentage-based Methods on *Canvas" 50 top ts
 
-		list left 80 ls
+		list left listop ls
 			li "Make a new canvas"
 			li ""
 			li "Place text, left-aligned"
 			li "Place centered text"
 			li "Place end-aligned text"
 			li "Obtain the text width"
-			li ""
-			li "Make a circle centered (x,y)"
-			li "Rectangle with corner at (x,y)"
+			li "Circle centered (x,y), radius r"
+			li "Rectangle, upper-left at (x,y)"
 			li "Rectangle centered at (x,y)"
-			li "Draw line from (x1,y) to (x2,y2)"
-			li "Place an image centered at (x,y)"
-			li ""
+			li "Line from (x1,y) to (x2,y2)"
+			li "Image centered at (x,y)"
 			li "Display and run"
 		elist
 
-		list codeleft 80 ls "mono"
+		list codeleft listop ls "mono"
 			li "NewCanvas(name string, w, h int) Canvas"
 			li ""
 			li "Text(x, y, size float64, s string, fill color.RGBA)"
 			li "CText(x, y, size float64, s string, fill color.RGBA)"
 			li "EText(x, y, size float64, s string, fill color.RGBA)"
 			li "TextWidth(s string, size float64) float64"
-			li ""
 			li "Circle(x, y, r float64, fill color.RGBA)"
 			li "CornerRect(x, y, w, h float64, fill color.RGBA)"
 			li "Rect(x, y, w, h float64, fill color.RGBA)"
 			li "Line(x1, y1, x2, y2, size float64, stroke color.RGBA)"
 			li "Image(x, y float64, w, h int, name string)"
-			li ""
 			li "EndRun()"
 		elist
 	eslide
@@ -144,63 +163,96 @@ deck
 	eslide
 
 	// Abs Methods
-	slide bgcolor fgcolor
-		rect 50 95 100 20 "black"
-		ctext "Absolute Coordinate Methods" 50 top ts
+	// slide bgcolor fgcolor
+	// 	rect 50 95 100 20 "black"
+	// 	ctext "Absolute Coordinate Methods" 50 top ts
 
-		list left 80 ls
-			li "Place text, left-aligned"
-			li "Place centered text"
-			li "Place end-aligned text"
-			li ""
-			li "Make a circle centered (x,y)"
-			li "Rectangle with corner at (x,y)"
-			li "Rectangle centered at (x,y)"
-			li "Draw line from (x1,y) to (x2,y2)"
-			li "Image upper-left corner at (x,y)"
-			li "Image centered at (x,y)"
-			li ""
-			li "New app context"
-			li "Display and run"
-		elist
+	// 	list left listop ls
+	// 		li "Place text, left-aligned"
+	// 		li "Place centered text"
+	// 		li "Place end-aligned text"
+	// 		li ""
+	// 		li "Make a circle centered (x,y)"
+	// 		li "Rectangle with corner at (x,y)"
+	// 		li "Rectangle centered at (x,y)"
+	// 		li "Draw line from (x1,y) to (x2,y2)"
+	// 		li "Image upper-left corner at (x,y)"
+	// 		li "Image centered at (x,y)"
+	// 		li ""
+	// 		li "New app context"
+	// 		li "Display and run"
+	// 	elist
 
-		list codeleft 80 ls "mono"
-			li "AbsText(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
-			li "AbsTextMid(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
-			li "AbsTextEnd(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
-			li ""
-			li "AbsCircle(c *fyne.Container,x,y,r int,fill color.RGBA)"
-			li "AbsCornerRect(c *fyne.Container,x,y,w,h int,fill color.RGBA)"
-			li "AbsRect(c *fyne.Container,x,y,w,h int,fill color.RGBA)"
-			li "AbsLine(c *fyne.Container,x1,y1,x2,y2 int,size float32,stroke color.RGBA)"
-			li "AbsCornerImage(c *fyne.Container,x,y,w,h int,name string)"
-			li "AbsImage(c *fyne.Container,x,y,w,h int,name string)"
-			li ""
-			li "AbsStart(name string,w,h int) (fyne.Window,*fyne.Container)"
-			li "AbsEndRun(window fyne.Window,c *fyne.Container,w,h int)"			
-		elist
-	eslide
+	// 	list codeleft listop ls "mono"
+	// 		li "AbsText(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
+	// 		li "AbsTextMid(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
+	// 		li "AbsTextEnd(c *fyne.Container,x,y int,s string,size int,fill color.RGBA)"
+	// 		li ""
+	// 		li "AbsCircle(c *fyne.Container,x,y,r int,fill color.RGBA)"
+	// 		li "AbsCornerRect(c *fyne.Container,x,y,w,h int,fill color.RGBA)"
+	// 		li "AbsRect(c *fyne.Container,x,y,w,h int,fill color.RGBA)"
+	// 		li "AbsLine(c *fyne.Container,x1,y1,x2,y2 int,size float32,stroke color.RGBA)"
+	// 		li "AbsCornerImage(c *fyne.Container,x,y,w,h int,name string)"
+	// 		li "AbsImage(c *fyne.Container,x,y,w,h int,name string)"
+	// 		li ""
+	// 		li "AbsStart(name string,w,h int) (fyne.Window,*fyne.Container)"
+	// 		li "AbsEndRun(window fyne.Window,c *fyne.Container,w,h int)"			
+	// 	elist
+	// eslide
 
 	// hello, world
 	slide bgcolor fgcolor
 		rect 50 95 100 20 "black"
-		ctext "hello, (fc) world" 50 top ts
-		image "images/hello.png" 78 45 802 830
-		textfile "code/hello.go" left 80 ms "mono"
+		ctext     "hello, (fc) world"   50 top ts
+		image     "images/hello.png"    75 45 802 830
+		textfile  "code/hello.go"       left 80 1.5 "mono"
 	eslide
 
 	// fc/chart
 	slide bgcolor fgcolor
 		rect 50 95 100 20 "black"
 		ctext "fc/chart:" 50 top ts
-		image "images/sine-cosine.png" 50 42 1702 1730 50
+		image "images/sine-cosine.png" 75 44 1702 1730 48
+		textfile "code/composite.go"   left 80 1.3 "mono"
  	eslide
-
 
 	// fc/chart data
 	slide bgcolor fgcolor
 		rect 50 95 100 20 "black"
 		ctext "fc/chart: data structures" 50 top ts
-		textfile "code/chartbox.go" left 80 2 "mono"
+		textfile "code/chartbox.go" left listop codesize "mono"
  	eslide
+
+	 // fc/chart methods
+	 slide bgcolor fgcolor
+	 	rect 50 95 100 20 "black"
+		ctext "fc/chart methods on *ChartBox" 50 top ts
+
+		list left listop ls
+			li "Read data, make a ChartBox"
+			li ""
+			li "Bar Chart"
+			li "Horizontal Bar Chart"
+			li "Line Chart"
+			li "Scatter Chart"
+			li "Centered Title"
+			li "Chart Frame"
+			li "X Axis Label"
+			li "Y axis"
+		elist
+
+	 	list codeleft listop ls "mono"
+			li "func DataRead(r io.Reader) (ChartBox, error)"
+			li ""
+			li "Bar(canvas fc.Canvas, size float64)"
+			li "HBar(canvas fc.Canvas, size, linespacing, textsize float64)"
+			li "Line(canvas fc.Canvas, size float64)"
+			li "Scatter(canvas fc.Canvas, size float64)"
+			li "CTitle(canvas fc.Canvas, size, offset float64)"
+			li "Frame(canvas fc.Canvas, opacity float64)"
+			li "Label(canvas fc.Canvas, size float64, interval int)"
+			li "YAxis(canvas fc.Canvas, size, min, max, step float64, fmt string, grid bool)"
+		elist
+	eslide
+
 edeck

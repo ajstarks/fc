@@ -1,2 +1,2 @@
 #!/bin/sh
-decksh fc.dsh | pdfdeck -stdout -pagesize 1920,1080 -sans NotoSans-Regular -mono Inconsolata-Regular -  > fc.pdf
+decksh fc.dsh | pdfdeck -stdout -pagesize 1920,1080 -sans NotoSans-Medium -mono Inconsolata-Regular $* -  > fc.pdf
