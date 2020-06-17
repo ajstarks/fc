@@ -25,6 +25,16 @@ deck
 
 	eslide
 
+	slide bgcolor fgcolor
+		gistlink="https://gist.github.com/ajstarks/5bad9b1f5a859b86a17a03bbfbafcee6"
+		motivation="The desire for a high-level Go API for developers and designers to think in terms of high level objects that make up a visual display. The objects will be familiar to anyone using a modern illustration program (text, images, lines, arcs, circles, curves, etc). The API should facilitate the artful arrangement of these elements on a scalable 2D canvas."
+		rect 50 92.5 100 15 "black"
+		ctext "Motivation" 50 top ts
+		textblock motivation 15 listop 65 2
+		ctext "Use Cases: Information Displays, Data Visualization, Creative Coding, Presentations" 50 45 2
+		etext gistlink 90 10 1 "mono" fgcolor 100 gistlink
+	eslide
+
 	// Elements
 	slide bgcolor fgcolor
 		op=40
@@ -59,14 +69,14 @@ deck
 	// grid
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "Percentage-based Grid" 50 top ts
+		ctext "The Percent Grid" 50 top ts
 		include "showgrid.dsh"
 	eslide
 
 	// Objects on the grid
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "Using the Percentage-based Grid" 50 top ts
+		ctext "Using the Percent Grid" 50 top ts
 
 		include "showgrid.dsh"
 		
@@ -92,8 +102,8 @@ deck
 	// fc structures
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		text "fc"                      31 top ts "sans" spotcolor
-		text "structure and operation" 35 top ts
+		text "fc"                      25 top ts "sans" spotcolor
+		text "structure and operation" 30 top ts
 		textfile "code/nc.go" left 65 1.8 "mono"
 
 		rect 70 50 40.5 41 fgcolor
@@ -115,7 +125,8 @@ deck
 	// % Methods
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "Percentage-based Methods on *Canvas" 50 top ts
+		etext "fc" 10 top ts "sans" spotcolor
+		ctext "Percentage-based methods on *Canvas" 50 top ts
 
 		list listleft listop ls "sans" fgcolor 100 listspacing
 			li "Make a new canvas"
@@ -180,7 +191,7 @@ deck
 	// fc/chart intro
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "fc/chart" 50 top ts
+		ctext "fc/chart" 50 top ts "sans" spotcolor
 		textblock "Scalable, modular, composable charts" left listop 20 3
 		blist left 55 2
 			li "Bar charts"
@@ -197,14 +208,16 @@ deck
 	// fc/chart structures
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "fc/chart: data structures" 50 top ts
+		text "fc/chart:"       30 top ts "sans" spotcolor
+		text "data structures" 47 top ts
 		textfile "code/chartbox.go" left listop codesize "mono"
  	eslide
 
 	 // fc/chart methods
 	 slide bgcolor fgcolor
 	 	rect 50 92.5 100 15 "black"
-		ctext "fc/chart methods on *ChartBox" 50 top ts
+		etext "fc/chart" 35 top ts "sans" spotcolor
+		text "methods on *ChartBox" 37 top ts
 
 		list listleft listop ls
 			li "Read data int ChartBox"
@@ -237,7 +250,8 @@ deck
 	// slide bgcolor fgcolor
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "fc/chart: read data" 50 top ts
+		text "fc/chart:" 30 top ts "sans" spotcolor
+		text "read data" 47 top ts
 		textfile "code/chartread.go"   left listop codesize "mono"
 		textfile "code/sin.d"          50   listop codesize "mono" 
 		textfile "code/cos.d"          70   listop codesize "mono"
@@ -246,7 +260,8 @@ deck
 	// fc/chart composite
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "fc/chart: two data sets" 50 top ts
+		text "fc/chart:"     30 top ts "sans" spotcolor
+		text "two data sets" 47 top ts
 		image "images/sc0.png" 76 44 1321 744 65
 		textfile "code/sc0.go" 5 60 codesize "mono"
  	eslide
@@ -254,7 +269,8 @@ deck
 	// fc/chart side by side
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
-		ctext "fc/chart: side by side" 50 top ts
+		text "fc/chart:"     30 top ts "sans" spotcolor
+		text "side by side" 47 top ts
 		image "images/sc1.png" 75 44 1295 555 70
 		textfile "code/sc1.go"   left listop codesize "mono"
  	eslide
@@ -292,14 +308,6 @@ deck
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
 		ctext "go get it" 50 top ts
-		list 20 60 4
-			li "fc"
-			li "fc/chart"
-		elist
-
-		list 40 60 4 "mono"
-			li "github.com/ajstarks/fc"
-			li "github.com/ajstarks/fc/chart"
-		elist
+		ctext  "github.com/ajstarks/fc" 50 50 5 "mono"
 	eslide
 edeck
