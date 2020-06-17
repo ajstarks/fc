@@ -1,13 +1,15 @@
 deck
 	canvas 1920 1080
 	ts=4
-	ls=ts*0.4
+	ls=ts*0.5
 	codesize=1.6
 	
 	left=10
-	codeleft=left+28
+	codeleft=left+30
 	top=90
+	listleft=5
 	listop=top-15
+	listspacing=1.7
 
 
 	bgcolor="rgb(50,50,50)"
@@ -71,7 +73,7 @@ deck
 		circle 40 45 10 fgcolor 40
 		circle 40 45 1 spotcolor 60
 		ctext "(50, 50)" 40 40 2
-		ctext "(90, 90)" 60 55 2
+		ctext "(90, 70)" 60 55 2
 		ctext "(10, 10)" 20 22 2
 		ctext "(30, 70)" 30 57 2
 
@@ -79,7 +81,10 @@ deck
 		circle 20 25 1 spotcolor 60
 		circle 30 55 1 spotcolor 60
 
-		text "Rect(90, 80, ...)"   70 65 2
+		rect 60 55 5 15 fgcolor 40
+		circle 60 55 1 spotcolor 60
+
+		text "Rect(90, 70, ...)"   70 65 2
 		text "Circle(50, 50, ...)" 70 45 2
 		text "Line(10, 10, 30, 70, ...)" 70 25 2
 	eslide
@@ -112,7 +117,7 @@ deck
 		rect 50 92.5 100 15 "black"
 		ctext "Percentage-based Methods on *Canvas" 50 top ts
 
-		list left listop ls
+		list listleft listop ls "sans" fgcolor 100 listspacing
 			li "Make a new canvas"
 			li ""
 			li "Place text, left-aligned"
@@ -127,7 +132,7 @@ deck
 			li "Display and run"
 		elist
 
-		list codeleft listop ls "mono"
+		list codeleft listop ls "mono" fgcolor 100 listspacing
 			li "NewCanvas(name string, w, h int) Canvas"
 			li ""
 			li "Text(x, y, size float64, s string, fill color.RGBA)"
@@ -148,14 +153,14 @@ deck
 		rect 50 92.5 100 15 "black"
 		ctext "Convenience methods" 50 top ts
 
-		list left 60 ls
+		list listleft 60 ls "sans" fgcolor 100 3
 			li "Lookup colors by name"
 			li "Map one range into another"
-			li "Polar to Cartesian coordinates"
+			li "Polar to Cartesian"
 			li "Convert degrees to radians"
 
 		elist
-		list codeleft 60 ls "mono"
+		list codeleft 60 ls "mono" fgcolor 100 3
 			li "ColorLookup(s string) color.RGBA"
 			li "MapRange(value, low1, high1, low2, high2 float64) float64"
 			li "Polar(x, y, r, angle float64) (float64, float64)"
@@ -201,8 +206,8 @@ deck
 	 	rect 50 92.5 100 15 "black"
 		ctext "fc/chart methods on *ChartBox" 50 top ts
 
-		list left listop ls
-			li "Read data, make a ChartBox"
+		list listleft listop ls
+			li "Read data int ChartBox"
 			li ""
 			li "Bar Chart"
 			li "Horizontal Bar Chart"
@@ -217,14 +222,15 @@ deck
 	 	list codeleft listop ls "mono"
 			li "func DataRead(r io.Reader) (ChartBox, error)"
 			li ""
-			li "Bar(canvas fc.Canvas, size float64)"
-			li "HBar(canvas fc.Canvas, size, linespacing, textsize float64)"
-			li "Line(canvas fc.Canvas, size float64)"
-			li "Scatter(canvas fc.Canvas, size float64)"
-			li "CTitle(canvas fc.Canvas, size, offset float64)"
-			li "Frame(canvas fc.Canvas, opacity float64)"
-			li "Label(canvas fc.Canvas, size float64, interval int)"
-			li "YAxis(canvas fc.Canvas, size, min, max, step float64, fmt string, grid bool)"
+			li "Bar(c fc.Canvas, size float64)"
+			li "HBar(c fc.Canvas, size, linespacing, textsize float64)"
+			li "Line(c fc.Canvas, size float64)"
+			li "Scatter(c fc.Canvas, size float64)"
+			li "CTitle(c fc.Canvas, size, offset float64)"
+			li "Frame(c fc.Canvas, opacity float64)"
+			li "Label(c fc.Canvas, size float64, interval int)"
+			li "YAxis(c fc.Canvas, size, min, max, step float64,"
+			li "fmt string, grid bool)"
 		elist
 	eslide
 
