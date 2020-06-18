@@ -45,6 +45,9 @@ deck
 		text "Text"  5 70 4
 		ctext "CText" 50 70 4
 		etext "EText" 95 70 4
+		hline 5 70 10
+		hline 45 70 10
+		hline 85 70 10
 		circle 5 70 coordsize spotcolor op
 		circle 50 70 coordsize spotcolor op
 		circle 95 70 coordsize spotcolor op
@@ -188,6 +191,19 @@ deck
 		textfile  "code/hello.go"       left 80 1.5 "mono"
 	eslide
 
+	// client gallery
+	slide bgcolor fgcolor
+		imscale=40
+		rect 50 92.5 100 15 "black"
+		ctext "demo/test clients" 50 top ts
+		cimage "images/hello.png"      "hello"       25 65 802 830 imscale
+		cimage "images/confetti.png"   "confetti"    50 65 802 830 imscale
+		cimage "images/eclipse.png"    "eclipse"      75 65 802 830 imscale
+		cimage "images/mondrian.png"   "mondrian"     25 25 802 830 imscale
+		cimage "images/sunearth.png"   "sunearth"     50 25 802 830 imscale
+		cimage "images/cloud.png"      "cloud"        75 25 802 830 imscale
+ 	eslide
+
 	// fc/chart intro
 	slide bgcolor fgcolor
 		rect 50 92.5 100 15 "black"
@@ -291,18 +307,7 @@ deck
 		image "images/fcdeck2.png" 70 30 1741 1368 40
  	eslide
 
-	// client gallery
-	slide bgcolor fgcolor
-		imscale=40
-		rect 50 92.5 100 15 "black"
-		ctext "demo/test clients" 50 top ts
-		cimage "images/hello.png"      "hello"       25 65 802 830 imscale
-		cimage "images/confetti.png"   "confetti"    50 65 802 830 imscale
-		cimage "images/eclipse.png"    "eclipse"      75 65 802 830 imscale
-		cimage "images/mondrian.png"   "mondrian"     25 25 802 830 imscale
-		cimage "images/sunearth.png"   "sunearth"     50 25 802 830 imscale
-		cimage "images/cloud.png"      "cloud"        75 25 802 830 imscale
- 	eslide
+
 
 	// go get it
 	slide bgcolor fgcolor
