@@ -7,8 +7,7 @@ import (
 )
 
 func main() {
-	width := 500
-	height := 500
+	width, height := 500, 500
 	blue := color.RGBA{0, 0, 255, 255}
 	white := color.RGBA{255, 255, 255, 255}
 
