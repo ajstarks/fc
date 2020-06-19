@@ -20,7 +20,7 @@ deck
 	slide "black" fgcolor
 		text "fc" 10 90 ts "sans" spotcolor
 		text "a high-level canvas API for the fyne toolkit" 15 90 ts
-		image "images/fyne-clients0.png"  50 50 2863 1612 47
+		image "images/allclients.png"  50 50 2067 1089 70
 		ctext "Anthony Starks / @ajstarks" 50 7 ls
 
 	eslide
@@ -218,7 +218,8 @@ deck
 			li "Axes"
 			li "Frames"
 		elist
-		image "images/sine-cosine.png" 70 42 1420 1430 60
+		image "images/chart.png" 70 42 1002 1030 75
+		//image "images/sine-cosine.png" 70 42 1420 1430 60
  	eslide
 
 	// fc/chart structures
@@ -278,7 +279,7 @@ deck
 		rect 50 92.5 100 15 "black"
 		text "fc/chart:"     30 top ts "sans" spotcolor
 		text "two data sets" 47 top ts
-		image "images/sc0.png" 76 44 1321 744 65
+		image "images/sc2.png" 75 45 932 501 90
 		textfile "code/sc0.go" 5 60 codesize "mono"
  	eslide
 
@@ -287,7 +288,7 @@ deck
 		rect 50 92.5 100 15 "black"
 		text "fc/chart:"     30 top ts "sans" spotcolor
 		text "side by side" 47 top ts
-		image "images/sc1.png" 75 44 1295 555 70
+		image "images/sc3.png" 70 45 927 333
 		textfile "code/sc1.go"   left listop codesize "mono"
  	eslide
 
