@@ -179,6 +179,7 @@ func AbsTextEnd(cont *fyne.Container, x, y int, s string, size int, color color.
 func AbsLine(cont *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA) {
 
 	// currently there is a cap of StrokeWidth > 10 for straight lines, so make rectangles
+	// TODO: remove this special case when the bug is fixed.
 	if x1 == x2 && size > 10 { // vertical line
 		lineLength := y2 - y1
 		AbsRect(cont, x1, y1+(lineLength/2), int(size), lineLength, color)
