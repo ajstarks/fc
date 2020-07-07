@@ -178,18 +178,18 @@ func AbsTextEnd(cont *fyne.Container, x, y int, s string, size int, color color.
 // AbsLine draws a line within a container
 func AbsLine(cont *fyne.Container, x1, y1, x2, y2 int, size float32, color color.RGBA) {
 
-	// currently there is a cap of StrokeWidth > 10 for straight lines, so make rectangles
-	// TODO: remove this special case when the bug is fixed.
-	if x1 == x2 && size > 10 { // vertical line
-		lineLength := y2 - y1
-		AbsRect(cont, x1, y1+(lineLength/2), int(size), lineLength, color)
-		return
-	}
-	if y1 == y2 && size > 10 { // horizontal line
-		lineLength := x2 - x1
-		AbsRect(cont, x1+(lineLength/2), y1, lineLength, int(size), color)
-		return
-	}
+	//	currently there is a cap of StrokeWidth > 10 for straight lines, so make rectangles
+	//	TODO: remove this special case when the bug is fixed.
+	// if x1 == x2 && size > 10 { // vertical line
+	// 	lineLength := y2 - y1
+	// 	AbsRect(cont, x1, y1+(lineLength/2), int(size), lineLength, color)
+	// 	return
+	// }
+	// if y1 == y2 && size > 10 { // horizontal line
+	// 	lineLength := x2 - x1
+	// 	AbsRect(cont, x1+(lineLength/2), y1, lineLength, int(size), color)
+	// 	return
+	// }
 	p1 := fyne.Position{X: x1, Y: y1}
 	p2 := fyne.Position{X: x2, Y: y2}
 	cont.AddObject(&canvas.Line{StrokeColor: color, StrokeWidth: size, Position1: p1, Position2: p2})
