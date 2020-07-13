@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"image/color"
+	"io"
 	"os"
 
 	"github.com/ajstarks/fc"
@@ -45,11 +46,25 @@ func main() {
 	flag.BoolVar(&scatter, "scatter", false, "scatter chart")
 	flag.Parse()
 
+	var input io.Reader
+	var ferr error
+
+	// Read from stdin or specified file
+	if len(flag.Args()) == 0 {
+		input = os.Stdin
+	} else {
+		input, ferr = os.Open(flag.Args()[0])
+		if ferr != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", ferr)
+			os.Exit(1)
+		}
+	}
+
 	// Read in the data
-	chart, err := chart.DataRead(os.Stdin)
+	chart, err := chart.DataRead(input)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
+		os.Exit(2)
 	}
 
 	// Define the canvas
