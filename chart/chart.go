@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"image/color"
 	"io"
+	"math"
 	"strconv"
 	"strings"
 
@@ -159,6 +160,57 @@ func (c *ChartBox) Scatter(canvas fc.Canvas, size float64) {
 		x := fc.MapRange(float64(i), 0, dlen, c.Left, c.Right)
 		y := fc.MapRange(d.value, ymin, c.Maxvalue, c.Bottom, c.Top)
 		canvas.Circle(x, y, size, c.Color)
+	}
+}
+
+// datasum returns the sum of the data
+func datasum(data []NameValue) float64 {
+	sum := 0.0
+	for _, d := range data {
+		sum += d.value
+	}
+	return sum
+}
+
+// dotgrid makes a grid 10x10 grid of dots colored by value
+func dotgrid(canvas fc.Canvas, x, y, left, step float64, n int, fillcolor color.RGBA) (float64, float64) {
+	edge := (((step * 0.3) + step) * 7) + left
+	for i := 0; i < n; i++ {
+		if x > edge {
+			x = left
+			y -= step
+		}
+		op := fillcolor.A
+		canvas.Circle(x, y, 2*step*0.3, fillcolor)
+		fillcolor.A = op - 70
+		canvas.Rect(x, y, step*0.9, step*0.9, fillcolor)
+		fillcolor.A = op
+		x += step
+	}
+	return x, y
+}
+
+// Lego makes a lego/waffle chart
+func (c *ChartBox) Lego(canvas fc.Canvas, step float64) {
+	left := c.Left
+	x := left
+	y := c.Top
+
+	sum := datasum(c.Data)
+	for _, d := range c.Data {
+		pct := (d.value / sum) * 100
+		v := int(math.Round(pct))
+		px, py := dotgrid(canvas, x, y, left, step, v, fc.ColorLookup(d.note))
+		x = px
+		y = py
+	}
+	y -= step * 2
+	for _, d := range c.Data {
+		pct := (d.value / sum) * 100
+		v := int(math.Round(pct))
+		canvas.Circle(left, y, 2*step*0.3, fc.ColorLookup(d.note))
+		canvas.Text(left+step, y-step*0.2, step*0.5, fmt.Sprintf("%s (%.d%%)", d.label, v), fc.ColorLookup("rgb(120,120,120"))
+		y -= step
 	}
 }
 

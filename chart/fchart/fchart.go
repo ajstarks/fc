@@ -18,7 +18,7 @@ func main() {
 	var width, height, xlabel int
 	var barwidth, linewidth, linespacing, dotsize, textsize, ty, frameOp, top, bottom, left, right float64
 	var chartitle, yrange, yaxfmt, dcolor string
-	var zb, line, bar, hbar, scatter, showtitle, showgrid bool
+	var zb, line, bar, hbar, scatter, lego, showtitle, showgrid bool
 	flag.IntVar(&width, "w", 600, "canvas width")
 	flag.IntVar(&height, "h", 600, "canvas height")
 	flag.IntVar(&xlabel, "xlabel", 1, "x-xaxis label")
@@ -44,6 +44,7 @@ func main() {
 	flag.BoolVar(&line, "line", false, "line chart")
 	flag.BoolVar(&hbar, "hbar", false, "horizontal bar")
 	flag.BoolVar(&scatter, "scatter", false, "scatter chart")
+	flag.BoolVar(&lego, "lego", false, "lego chart")
 	flag.Parse()
 
 	var input io.Reader
@@ -96,6 +97,9 @@ func main() {
 	}
 	if hbar {
 		chart.HBar(canvas, barwidth, linespacing, textsize)
+	}
+	if lego {
+		chart.Lego(canvas, dotsize)
 	}
 
 	// Draw labels, axes if specified
