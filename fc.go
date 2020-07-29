@@ -46,6 +46,13 @@ func Polar(x, y, r, angle float64) (float64, float64) {
 	return px, py
 }
 
+// PolarRadians returns the euclidian corrdinates from polar coordinates
+func PolarRadians(x, y, r, angle float64) (float64, float64) {
+	px := (r * math.Cos(angle)) + x
+	py := (r * math.Sin(angle)) + y
+	return px, py
+}
+
 func pct(p float64, m float64) float64 {
 	return ((p / 100.0) * m)
 }
@@ -301,4 +308,16 @@ func (c *Canvas) CornerRect(x, y, w, h float64, color color.RGBA) {
 func (c *Canvas) Image(x, y float64, w, h int, name string) {
 	x, y = dimen(x, y, c.Width, c.Height)
 	AbsImage(c.Container, int(x), int(y), w, h, name)
+}
+
+// ArcLine makes a stroked arc centered at (x, y), with radius r
+func (c *Canvas) ArcLine(x, y, r, a1, a2, size float64, color color.RGBA) {
+	step := (a2 - a1) / 100
+	x1, y1 := Polar(x, y, r, a1)
+	for t := a1 + step; t <= a2; t += step {
+		x2, y2 := PolarRadians(x, y, r, t)
+		c.Line(x1, y1, x2, y2, size, color)
+		x1 = x2
+		y1 = y2
+	}
 }
