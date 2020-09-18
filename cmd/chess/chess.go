@@ -29,15 +29,17 @@ func main() {
 	x := left
 	y := top
 	size := 10.0
-	canvas.CornerRect(left, top, size*8, size*8, white) // board background
-	for i := 0; i < 8; i++ {                            // for every row make alternating squares
+	nrows := 8
+	bgsize := size * float64(nrows)
+	canvas.CornerRect(left, top, bgsize, bgsize, white) // board background
+	for i := 0; i < nrows; i++ {                        // for every row make alternating squares
 		if i%2 == 0 {
 			x = left + size
 		} else {
 			x = left
 		}
-		row(canvas, 4, x, y, size, black) // make the row
-		y -= size                         // move down
+		row(canvas, nrows/2, x, y, size, black) // make the row
+		y -= size                               // move down
 	}
 	canvas.EndRun()
 }
