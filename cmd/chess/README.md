@@ -1,0 +1,1 @@
+![chessboard](chess.png)
