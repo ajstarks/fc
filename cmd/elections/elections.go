@@ -10,6 +10,10 @@ import (
 	"strconv"
 	"strings"
 
+	"fyne.io/fyne"
+	"fyne.io/fyne/layout"
+	"fyne.io/fyne/theme"
+	"fyne.io/fyne/widget"
 	"github.com/ajstarks/fc"
 )
 
@@ -20,6 +24,13 @@ type egrid struct {
 	row        int
 	col        int
 	population int
+}
+
+// One election "frame"
+type election struct {
+	title    string
+	min, max int
+	data     []egrid
 }
 
 var partymap = map[string]string{"r": "red", "d": "blue", "i": "gray"}
@@ -44,7 +55,7 @@ func atoi(s string) int {
 }
 
 // readData reads election data into the data structure
-func readData(r io.Reader) ([]egrid, int, int, string, error) {
+func readData(r io.Reader) (election, error) {
 	var d egrid
 	var data []egrid
 	title := ""
@@ -78,17 +89,21 @@ func readData(r io.Reader) ([]egrid, int, int, string, error) {
 			min = d.population
 		}
 	}
-	return data, min, max, title, scanner.Err()
+	var e election
+	e.title = title
+	e.min = min
+	e.max = max
+	e.data = data
+	return e, scanner.Err()
 }
 
 // process walks the data, making the visualization
-func process(canvas fc.Canvas, startx, starty, rowsize, colsize float64, data []egrid, min, max int, title string) {
-	println("processing...")
-	amin := area(float64(min))
-	amax := area(float64(max))
-	beginPage(canvas, "black", "white")
-	showtitle(canvas, title, starty+15)
-	for _, d := range data {
+func process(canvas fc.Canvas, startx, starty, rowsize, colsize float64, e election) {
+	amin := area(float64(e.min))
+	amax := area(float64(e.max))
+	beginPage(canvas, "black")
+	showtitle(canvas, e.title, starty+15)
+	for _, d := range e.data {
 		x := startx + (float64(d.row) * colsize)
 		y := starty - (float64(d.col) * rowsize)
 		r := maprange(area(float64(d.population)), amin, amax, 2, colsize)
@@ -135,43 +150,74 @@ func legend(canvas fc.Canvas, x, y, ts float64, s string, color string) {
 }
 
 // beginPage starts a page
-func beginPage(canvas fc.Canvas, bgcolor, textcolor string) {
-	canvas.CornerRect(0, 0, 1200, 900, fc.ColorLookup(bgcolor))
+func beginPage(canvas fc.Canvas, bgcolor string) {
+	canvas.Rect(50, 50, 100, 100, fc.ColorLookup(bgcolor))
 }
 
 // endPage ends a page
 func endPage(canvas fc.Canvas) {
 	ctext(canvas, 50, 5, 1.5, "The area of a circle denotes state population: source U.S. Census", "gray")
-	fmt.Println("eslide")
 }
 
-// beginDoc starts the document
-func beginDoc() {
-	fmt.Println("deck")
+// back shows the previous frame
+func back(c fc.Canvas, e []election, n *int, limit int) {
+	*n--
+	if *n < 0 {
+		*n = limit - 1
+	}
+	process(c, 5, 75, 9, 7, e[*n])
 }
 
-// endDoc ends the document
-func endDoc() {
-	fmt.Println("edeck")
+// forward shows the next frame
+func forward(c fc.Canvas, e []election, n *int, limit int) {
+	*n++
+	if *n > limit-1 {
+		*n = 0
+	}
+	process(c, 5, 75, 9, 7, e[*n])
 }
 
 func main() {
-	width, height := 1200, 900
-	canvas := fc.NewCanvas("elections", width, height)
-	for _, f := range os.Args[1:] { // for every file, make a page
+
+	// Read in the data
+	var elections []election
+	for _, f := range os.Args[1:] {
 		r, err := os.Open(f)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 			continue
 		}
-		data, min, max, title, err := readData(r)
+		e, err := readData(r)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 			continue
 		}
-		process(canvas, 10, 75, 9, 7, data, min, max, title)
-		canvas.EndRun()
+		elections = append(elections, e)
 		r.Close()
 	}
-	endDoc()
+
+	frames := len(elections)
+	if frames < 1 {
+		os.Exit(1)
+	}
+
+	// initialize
+	width, height := 1200, 900
+	c := fc.NewCanvas("elections", width, height)
+	w := c.Window
+	n := 0
+	process(c, 5, 75, 9, 7, elections[n]) // show the first frame
+
+	// make the toolbars
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(theme.NavigateBackIcon(), func() { back(c, elections, &n, frames) }),    // previous frame
+		widget.NewToolbarAction(theme.NavigateNextIcon(), func() { forward(c, elections, &n, frames) }), // next frame
+	)
+	// add the content
+	w.SetContent(fyne.NewContainerWithLayout(layout.NewBorderLayout(toolbar, nil, nil, nil), toolbar, c.Container))
+	w.Resize(fyne.NewSize(width, height+toolbar.Size().Height))
+
+	// run it!
+	w.ShowAndRun()
+
 }
