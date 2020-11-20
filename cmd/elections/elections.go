@@ -165,7 +165,7 @@ func back(c fc.Canvas, e []election, n *int, limit int) {
 	if *n < 0 {
 		*n = limit - 1
 	}
-	process(c, 5, 75, 9, 7, e[*n])
+	process(c, 7, 75, 9, 7, e[*n])
 }
 
 // forward shows the next frame
@@ -174,7 +174,7 @@ func forward(c fc.Canvas, e []election, n *int, limit int) {
 	if *n > limit-1 {
 		*n = 0
 	}
-	process(c, 5, 75, 9, 7, e[*n])
+	process(c, 7, 75, 9, 7, e[*n])
 }
 
 func main() {
@@ -206,7 +206,7 @@ func main() {
 	c := fc.NewCanvas("elections", width, height)
 	w := c.Window
 	n := 0
-	process(c, 5, 75, 9, 7, elections[n]) // show the first frame
+	process(c, 7, 75, 9, 7, elections[n]) // show the first frame
 
 	// make the toolbars
 	toolbar := widget.NewToolbar(
