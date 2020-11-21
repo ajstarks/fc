@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"math"
@@ -31,6 +32,11 @@ type election struct {
 	title    string
 	min, max int
 	data     []egrid
+}
+
+type options struct {
+	width, height               int
+	top, left, rowsize, colsize float64
 }
 
 var partymap = map[string]string{"r": "red", "d": "blue", "i": "gray"}
@@ -98,15 +104,15 @@ func readData(r io.Reader) (election, error) {
 }
 
 // process walks the data, making the visualization
-func process(canvas fc.Canvas, startx, starty, rowsize, colsize float64, e election) {
+func process(canvas fc.Canvas, opts options, e election) {
 	amin := area(float64(e.min))
 	amax := area(float64(e.max))
 	beginPage(canvas, "black")
-	showtitle(canvas, e.title, starty+15)
+	showtitle(canvas, e.title, opts.top+15)
 	for _, d := range e.data {
-		x := startx + (float64(d.row) * colsize)
-		y := starty - (float64(d.col) * rowsize)
-		r := maprange(area(float64(d.population)), amin, amax, 2, colsize)
+		x := opts.left + (float64(d.row) * opts.colsize)
+		y := opts.top - (float64(d.col) * opts.rowsize)
+		r := maprange(area(float64(d.population)), amin, amax, 2, opts.colsize)
 		circle(canvas, x, y, r, partymap[d.party])
 		ctext(canvas, x, y-0.5, 1.2, d.name, "white")
 	}
@@ -160,28 +166,36 @@ func endPage(canvas fc.Canvas) {
 }
 
 // back shows the previous frame
-func back(c fc.Canvas, e []election, n *int, limit int) {
+func back(c fc.Canvas, opts options, e []election, n *int, limit int) {
 	*n--
 	if *n < 0 {
 		*n = limit - 1
 	}
-	process(c, 7, 75, 9, 7, e[*n])
+	process(c, opts, e[*n])
 }
 
 // forward shows the next frame
-func forward(c fc.Canvas, e []election, n *int, limit int) {
+func forward(c fc.Canvas, opts options, e []election, n *int, limit int) {
 	*n++
 	if *n > limit-1 {
 		*n = 0
 	}
-	process(c, 7, 75, 9, 7, e[*n])
+	process(c, opts, e[*n])
 }
 
 func main() {
 
+	var opts options
+	flag.Float64Var(&opts.top, "top", 75, "top value")
+	flag.Float64Var(&opts.left, "left", 7, "top value")
+	flag.Float64Var(&opts.rowsize, "rowsize", 9, "top value")
+	flag.Float64Var(&opts.colsize, "colsize", 7, "top value")
+	flag.IntVar(&opts.width, "width", 1200, "canvas width")
+	flag.IntVar(&opts.height, "height", 900, "canvas height")
+	flag.Parse()
 	// Read in the data
 	var elections []election
-	for _, f := range os.Args[1:] {
+	for _, f := range flag.Args() {
 		r, err := os.Open(f)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
@@ -195,27 +209,26 @@ func main() {
 		elections = append(elections, e)
 		r.Close()
 	}
-
 	frames := len(elections)
 	if frames < 1 {
+		fmt.Fprintln(os.Stderr, "no data read")
 		os.Exit(1)
 	}
 
 	// initialize
-	width, height := 1200, 900
-	c := fc.NewCanvas("elections", width, height)
+	c := fc.NewCanvas("elections", opts.width, opts.height)
 	w := c.Window
 	n := 0
-	process(c, 7, 75, 9, 7, elections[n]) // show the first frame
+	process(c, opts, elections[n]) // show the first frame
 
 	// make the toolbars
 	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(theme.NavigateBackIcon(), func() { back(c, elections, &n, frames) }),    // previous frame
-		widget.NewToolbarAction(theme.NavigateNextIcon(), func() { forward(c, elections, &n, frames) }), // next frame
+		widget.NewToolbarAction(theme.NavigateBackIcon(), func() { back(c, opts, elections, &n, frames) }),    // previous frame
+		widget.NewToolbarAction(theme.NavigateNextIcon(), func() { forward(c, opts, elections, &n, frames) }), // next frame
 	)
 	// add the content
 	w.SetContent(fyne.NewContainerWithLayout(layout.NewBorderLayout(toolbar, nil, nil, nil), toolbar, c.Container))
-	w.Resize(fyne.NewSize(width, height+toolbar.Size().Height))
+	w.Resize(fyne.NewSize(opts.width, opts.height+toolbar.Size().Height))
 
 	// run it!
 	w.ShowAndRun()
