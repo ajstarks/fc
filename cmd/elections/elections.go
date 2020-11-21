@@ -24,13 +24,13 @@ type egrid struct {
 	party      string
 	row        int
 	col        int
-	population int
+	population int64
 }
 
 // One election "frame"
 type election struct {
 	title    string
-	min, max int
+	min, max int64
 	data     []egrid
 }
 
@@ -40,7 +40,7 @@ type options struct {
 	bgcolor, textcolor          string
 }
 
-var partymap = map[string]string{"r": "red", "d": "blue", "i": "gray"}
+var partyColors = map[string]string{"r": "red", "d": "blue", "i": "gray"}
 
 // maprange maps one range into another
 func maprange(value, low1, high1, low2, high2 float64) float64 {
@@ -61,13 +61,23 @@ func atoi(s string) int {
 	return v
 }
 
+// atoi64 converts a string to an 64-bit integer
+func atoi64(s string) int64 {
+	v, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return 0
+	}
+	return v
+}
+
 // readData reads election data into the data structure
 func readData(r io.Reader) (election, error) {
 	var d egrid
 	var data []egrid
+	var min, max int64
 	title := ""
 	scanner := bufio.NewScanner(r)
-	min, max := math.MaxInt32, -math.MaxInt32
+	min, max = math.MaxInt64, -math.MaxInt64
 	for scanner.Scan() {
 		t := scanner.Text()
 		if len(t) == 0 { // skip blank lines
@@ -86,7 +96,7 @@ func readData(r io.Reader) (election, error) {
 		d.col = atoi(fields[1])
 		d.row = atoi(fields[2])
 		d.party = fields[3]
-		d.population = atoi(fields[4])
+		d.population = atoi64(fields[4])
 		data = append(data, d)
 		// compute min, max
 		if d.population > max {
@@ -114,7 +124,7 @@ func process(canvas fc.Canvas, opts options, e election) {
 		x := opts.left + (float64(d.row) * opts.colsize)
 		y := opts.top - (float64(d.col) * opts.rowsize)
 		r := maprange(area(float64(d.population)), amin, amax, 2, opts.colsize)
-		circle(canvas, x, y, r, partymap[d.party])
+		circle(canvas, x, y, r, partyColors[d.party])
 		ctext(canvas, x, y-0.5, 1.2, d.name, "white")
 	}
 	endPage(canvas)
@@ -128,10 +138,10 @@ func showtitle(canvas fc.Canvas, s string, top float64, textcolor string) {
 	}
 	suby := top - 7
 	ctext(canvas, 50, top, 3.6, fields[0]+" US Presidential Election", textcolor)
-	legend(canvas, 20, suby, 2.0, fields[1], partymap["d"], textcolor)
-	legend(canvas, 80, suby, 2.0, fields[2], partymap["r"], textcolor)
+	legend(canvas, 20, suby, 2.0, fields[1], partyColors["d"], textcolor)
+	legend(canvas, 80, suby, 2.0, fields[2], partyColors["r"], textcolor)
 	if len(fields) > 3 {
-		legend(canvas, 50, suby, 2.0, fields[3], partymap["i"], textcolor)
+		legend(canvas, 50, suby, 2.0, fields[3], partyColors["i"], textcolor)
 	}
 }
 
@@ -188,10 +198,10 @@ func main() {
 
 	// command line options
 	var opts options
-	flag.Float64Var(&opts.top, "top", 75, "top value")
-	flag.Float64Var(&opts.left, "left", 7, "top value")
-	flag.Float64Var(&opts.rowsize, "rowsize", 9, "top value")
-	flag.Float64Var(&opts.colsize, "colsize", 7, "top value")
+	flag.Float64Var(&opts.top, "top", 75, "map top value (canvas %)")
+	flag.Float64Var(&opts.left, "left", 7, "map left value (canvas %)")
+	flag.Float64Var(&opts.rowsize, "rowsize", 9, "rowsize (canvas %)")
+	flag.Float64Var(&opts.colsize, "colsize", 7, "column size (canvas %)")
 	flag.IntVar(&opts.width, "width", 1200, "canvas width")
 	flag.IntVar(&opts.height, "height", 900, "canvas height")
 	flag.StringVar(&opts.bgcolor, "bgcolor", "black", "background color")
