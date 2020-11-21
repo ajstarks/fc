@@ -37,6 +37,7 @@ type election struct {
 type options struct {
 	width, height               int
 	top, left, rowsize, colsize float64
+	bgcolor, textcolor          string
 }
 
 var partymap = map[string]string{"r": "red", "d": "blue", "i": "gray"}
@@ -107,8 +108,8 @@ func readData(r io.Reader) (election, error) {
 func process(canvas fc.Canvas, opts options, e election) {
 	amin := area(float64(e.min))
 	amax := area(float64(e.max))
-	beginPage(canvas, "black")
-	showtitle(canvas, e.title, opts.top+15)
+	beginPage(canvas, opts.bgcolor)
+	showtitle(canvas, e.title, opts.top+15, opts.textcolor)
 	for _, d := range e.data {
 		x := opts.left + (float64(d.row) * opts.colsize)
 		y := opts.top - (float64(d.col) * opts.rowsize)
@@ -120,17 +121,17 @@ func process(canvas fc.Canvas, opts options, e election) {
 }
 
 // showtitle shows the title and subhead
-func showtitle(canvas fc.Canvas, s string, top float64) {
+func showtitle(canvas fc.Canvas, s string, top float64, textcolor string) {
 	fields := strings.Fields(s) // year, democratic, republican, third-party (optional)
 	if len(fields) < 3 {
 		return
 	}
 	suby := top - 7
-	ctext(canvas, 50, top, 3.6, fields[0]+" US Presidential Election", "white")
-	legend(canvas, 20, suby, 2.0, fields[1], partymap["d"])
-	legend(canvas, 80, suby, 2.0, fields[2], partymap["r"])
+	ctext(canvas, 50, top, 3.6, fields[0]+" US Presidential Election", textcolor)
+	legend(canvas, 20, suby, 2.0, fields[1], partymap["d"], textcolor)
+	legend(canvas, 80, suby, 2.0, fields[2], partymap["r"], textcolor)
 	if len(fields) > 3 {
-		legend(canvas, 50, suby, 2.0, fields[3], partymap["i"])
+		legend(canvas, 50, suby, 2.0, fields[3], partymap["i"], textcolor)
 	}
 }
 
@@ -150,8 +151,8 @@ func ltext(canvas fc.Canvas, x, y, ts float64, s string, color string) {
 }
 
 // legend makes the subtitle
-func legend(canvas fc.Canvas, x, y, ts float64, s string, color string) {
-	ltext(canvas, x, y, ts, s, "white")
+func legend(canvas fc.Canvas, x, y, ts float64, s string, color, textcolor string) {
+	ltext(canvas, x, y, ts, s, textcolor)
 	circle(canvas, x-ts, y+ts/3, ts/2, color)
 }
 
@@ -185,6 +186,7 @@ func forward(c fc.Canvas, opts options, e []election, n *int, limit int) {
 
 func main() {
 
+	// command line options
 	var opts options
 	flag.Float64Var(&opts.top, "top", 75, "top value")
 	flag.Float64Var(&opts.left, "left", 7, "top value")
@@ -192,7 +194,10 @@ func main() {
 	flag.Float64Var(&opts.colsize, "colsize", 7, "top value")
 	flag.IntVar(&opts.width, "width", 1200, "canvas width")
 	flag.IntVar(&opts.height, "height", 900, "canvas height")
+	flag.StringVar(&opts.bgcolor, "bgcolor", "black", "background color")
+	flag.StringVar(&opts.textcolor, "textcolor", "white", "text color")
 	flag.Parse()
+
 	// Read in the data
 	var elections []election
 	for _, f := range flag.Args() {
