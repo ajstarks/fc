@@ -1,10 +1,9 @@
 #!/bin/sh
 for i in $(cat cl)
 do
+	echo -n "$i "
 	cd $i
-	./$i &
+	go build .	
 	cd ..
 done
-cd ../chart/chartest
-./chartest &
-
+echo
