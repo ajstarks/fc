@@ -15,9 +15,9 @@ import (
 
 // NameValue is a name,value pair
 type NameValue struct {
-	label string
-	note  string
-	value float64
+	Label string
+	Note  string
+	Value float64
 }
 
 // ChartBox holds the essential data for making a chart
@@ -62,20 +62,20 @@ func DataRead(r io.Reader) (ChartBox, error) {
 			continue
 		}
 		if len(fields) == 3 {
-			d.note = fields[2]
+			d.Note = fields[2]
 		} else {
-			d.note = ""
+			d.Note = ""
 		}
-		d.label = fields[0]
-		d.value, err = strconv.ParseFloat(fields[1], 64)
+		d.Label = fields[0]
+		d.Value, err = strconv.ParseFloat(fields[1], 64)
 		if err != nil {
-			d.value = 0
+			d.Value = 0
 		}
-		if d.value > maxval {
-			maxval = d.value
+		if d.Value > maxval {
+			maxval = d.Value
 		}
-		if d.value < minval {
-			minval = d.value
+		if d.Value < minval {
+			minval = d.Value
 		}
 		data = append(data, d)
 	}
@@ -108,7 +108,7 @@ func (c *ChartBox) Bar(canvas fc.Canvas, size float64) {
 	ymin := zerobase(c.Zerobased, c.Minvalue)
 	for i, d := range c.Data {
 		x := fc.MapRange(float64(i), 0, dlen, c.Left, c.Right)
-		y := fc.MapRange(d.value, ymin, c.Maxvalue, c.Bottom, c.Top)
+		y := fc.MapRange(d.Value, ymin, c.Maxvalue, c.Bottom, c.Top)
 		canvas.Line(x, c.Bottom, x, y, size, c.Color)
 	}
 }
@@ -118,8 +118,8 @@ func (c *ChartBox) HBar(canvas fc.Canvas, size, linespacing, textsize float64) {
 	y := c.Top
 	xmin := zerobase(c.Zerobased, c.Minvalue)
 	for _, d := range c.Data {
-		canvas.EText(c.Left-2, y-size/2, textsize, d.label, labelcolor)
-		x2 := fc.MapRange(d.value, xmin, c.Maxvalue, c.Left, c.Right)
+		canvas.EText(c.Left-2, y-size/2, textsize, d.Label, labelcolor)
+		x2 := fc.MapRange(d.Value, xmin, c.Maxvalue, c.Left, c.Right)
 		canvas.Line(c.Left, y, x2, y, size, c.Color)
 		y -= linespacing
 	}
@@ -131,8 +131,8 @@ func (c *ChartBox) Line(canvas fc.Canvas, size float64) {
 	fn := float64(n - 1)
 	ymin := zerobase(c.Zerobased, c.Minvalue)
 	for i := 0; i < n-1; i++ {
-		v1 := c.Data[i].value
-		v2 := c.Data[i+1].value
+		v1 := c.Data[i].Value
+		v2 := c.Data[i+1].Value
 		x1 := fc.MapRange(float64(i), 0, fn, c.Left, c.Right)
 		y1 := fc.MapRange(v1, ymin, c.Maxvalue, c.Bottom, c.Top)
 		x2 := fc.MapRange(float64(i+1), 0, fn, c.Left, c.Right)
@@ -147,7 +147,7 @@ func (c *ChartBox) Label(canvas fc.Canvas, size float64, n int) {
 	for i, d := range c.Data {
 		x := fc.MapRange(float64(i), 0, fn, c.Left, c.Right)
 		if i%n == 0 {
-			canvas.CText(x, c.Bottom-(size*2), size, d.label, c.Color)
+			canvas.CText(x, c.Bottom-(size*2), size, d.Label, c.Color)
 		}
 	}
 }
@@ -158,7 +158,7 @@ func (c *ChartBox) Scatter(canvas fc.Canvas, size float64) {
 	ymin := zerobase(c.Zerobased, c.Minvalue)
 	for i, d := range c.Data {
 		x := fc.MapRange(float64(i), 0, dlen, c.Left, c.Right)
-		y := fc.MapRange(d.value, ymin, c.Maxvalue, c.Bottom, c.Top)
+		y := fc.MapRange(d.Value, ymin, c.Maxvalue, c.Bottom, c.Top)
 		canvas.Circle(x, y, size, c.Color)
 	}
 }
@@ -167,7 +167,7 @@ func (c *ChartBox) Scatter(canvas fc.Canvas, size float64) {
 func datasum(data []NameValue) float64 {
 	sum := 0.0
 	for _, d := range data {
-		sum += d.value
+		sum += d.Value
 	}
 	return sum
 }
@@ -198,18 +198,18 @@ func (c *ChartBox) Lego(canvas fc.Canvas, step float64) {
 
 	sum := datasum(c.Data)
 	for _, d := range c.Data {
-		pct := (d.value / sum) * 100
+		pct := (d.Value / sum) * 100
 		v := int(math.Round(pct))
-		px, py := dotgrid(canvas, x, y, left, step, v, fc.ColorLookup(d.note))
+		px, py := dotgrid(canvas, x, y, left, step, v, fc.ColorLookup(d.Note))
 		x = px
 		y = py
 	}
 	y -= step * 2
 	for _, d := range c.Data {
-		pct := (d.value / sum) * 100
+		pct := (d.Value / sum) * 100
 		v := int(math.Round(pct))
-		canvas.Circle(left, y, 2*step*0.3, fc.ColorLookup(d.note))
-		canvas.Text(left+step, y-step*0.2, step*0.5, fmt.Sprintf("%s (%.d%%)", d.label, v), fc.ColorLookup("rgb(120,120,120"))
+		canvas.Circle(left, y, 2*step*0.3, fc.ColorLookup(d.Note))
+		canvas.Text(left+step, y-step*0.2, step*0.5, fmt.Sprintf("%s (%.d%%)", d.Label, v), fc.ColorLookup("rgb(120,120,120"))
 		y -= step
 	}
 }
