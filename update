@@ -1,0 +1,5 @@
+#!/bin/sh
+go get fyne.io/fyne/v2@latest &&
+go mod tidy &&
+cd cmd
+./bc.sh && ./rc.sh
