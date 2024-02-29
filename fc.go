@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
 )
 
 // Canvas is where objects are drawn into
@@ -22,7 +23,7 @@ type Canvas struct {
 func NewCanvas(name string, w, h int) Canvas {
 	c := Canvas{
 		Window:    app.New().NewWindow(name),
-		Container: fyne.NewContainerWithoutLayout(iRect(w/2, h/2, w, h, color.RGBA{0, 0, 0, 255})),
+		Container: container.NewWithoutLayout(iRect(w/2, h/2, w, h, color.RGBA{0, 0, 0, 255})),
 		Width:     float64(w),
 		Height:    float64(h),
 	}
@@ -64,7 +65,7 @@ func dimen(xp, yp, w, h float64) (float64, float64) {
 
 // AbsStart initiates the canvas
 func AbsStart(name string, w, h int) (fyne.Window, *fyne.Container) {
-	return app.New().NewWindow(name), fyne.NewContainer(iRect(w/2, h/2, w, h, color.RGBA{0, 0, 0, 255}))
+	return app.New().NewWindow(name), container.NewWithoutLayout(iRect(w/2, h/2, w, h, color.RGBA{0, 0, 0, 255}))
 }
 
 // EndRun shows the content and runs the app
