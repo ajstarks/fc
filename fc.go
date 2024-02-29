@@ -171,21 +171,21 @@ func AbsText(cont *fyne.Container, x, y int, s string, size int, color color.RGB
 	adj := fsize / 5
 	p := fyne.Position{X: fx, Y: fy - (fsize + adj)}
 	t.Move(p)
-	cont.AddObject(t)
+	cont.Add(t)
 }
 
 // AbsTextMid centers text within a container
 func AbsTextMid(cont *fyne.Container, x, y int, s string, size int, color color.RGBA) {
 	t := iText(x, y, s, size, color)
 	t.Alignment = fyne.TextAlignCenter
-	cont.AddObject(t)
+	cont.Add(t)
 }
 
 // AbsTextEnd end-aligns text within a container
 func AbsTextEnd(cont *fyne.Container, x, y int, s string, size int, color color.RGBA) {
 	t := iText(x, y, s, size, color)
 	t.Alignment = fyne.TextAlignTrailing
-	cont.AddObject(t)
+	cont.Add(t)
 }
 
 // AbsLine draws a line within a container
@@ -205,7 +205,7 @@ func AbsLine(cont *fyne.Container, x1, y1, x2, y2 int, size float32, color color
 	// }
 	p1 := fyne.Position{X: float32(x1), Y: float32(y1)}
 	p2 := fyne.Position{X: float32(x2), Y: float32(y2)}
-	cont.AddObject(&canvas.Line{StrokeColor: color, StrokeWidth: size, Position1: p1, Position2: p2})
+	cont.Add(&canvas.Line{StrokeColor: color, StrokeWidth: size, Position1: p1, Position2: p2})
 }
 
 // AbsCircle is a containerized circle within a container
@@ -213,7 +213,7 @@ func AbsCircle(cont *fyne.Container, x, y, r int, color color.RGBA) {
 	fx, fy, fr := float32(x), float32(y), float32(r)
 	p1 := fyne.Position{X: fx - fr, Y: fy - fr}
 	p2 := fyne.Position{X: fx + fr, Y: fy + fr}
-	cont.AddObject(&canvas.Circle{FillColor: color, Position1: p1, Position2: p2})
+	cont.Add(&canvas.Circle{FillColor: color, Position1: p1, Position2: p2})
 }
 
 // AbsCornerRect makes a rectangle within a container
@@ -222,7 +222,7 @@ func AbsCornerRect(cont *fyne.Container, x, y, w, h int, color color.RGBA) {
 	r := &canvas.Rectangle{FillColor: color}
 	r.Move(fyne.Position{X: fx, Y: fy})
 	r.Resize(fyne.Size{Width: fw, Height: fh})
-	cont.AddObject(r)
+	cont.Add(r)
 }
 
 // AbsRect makes a rectangle centered at x,y within a container
@@ -231,7 +231,7 @@ func AbsRect(cont *fyne.Container, x, y, w, h int, color color.RGBA) {
 	r := &canvas.Rectangle{FillColor: color}
 	r.Move(fyne.Position{X: fx - (fw / 2), Y: fy - (fh / 2)})
 	r.Resize(fyne.Size{Width: fw, Height: fh})
-	cont.AddObject(r)
+	cont.Add(r)
 }
 
 // AbsImage places the image centered at x, y within a container
@@ -240,7 +240,7 @@ func AbsImage(cont *fyne.Container, x, y, w, h int, name string) {
 	i := canvas.NewImageFromFile(name)
 	i.Move(fyne.Position{X: fx - (fw / 2), Y: fy - (fh / 2)})
 	i.Resize(fyne.Size{Width: fw, Height: fh})
-	cont.AddObject(i)
+	cont.Add(i)
 }
 
 // AbsCornerImage places the image centered at x, y within a container
@@ -249,7 +249,7 @@ func AbsCornerImage(cont *fyne.Container, x, y, w, h int, name string) {
 	i := canvas.NewImageFromFile(name)
 	i.Move(fyne.Position{X: fx, Y: fy})
 	i.Resize(fyne.Size{Width: fw, Height: fh})
-	cont.AddObject(i)
+	cont.Add(i)
 }
 
 //
