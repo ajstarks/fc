@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 for i in $(cat cl)
 do
 	echo -n "$i "

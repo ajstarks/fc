@@ -51,8 +51,8 @@ Close elections
 The input files have five tab-separated fields
 
 * State, 
-* Grid Column, 
-* Grid Row, 
+* Grid Row, (0-n)
+* Grid Column, (0-n)
 * Party (r=Republican, d=Democrat, i=Independent), 
 * State population.
 
